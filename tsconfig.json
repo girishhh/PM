@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "target": "es2017",
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "sourceMap": true,
+    "lib": ["es2017"]
+    // "paths": {
+    //   "@src": ["./src"]
+    // }
+  },
+  "exclude": ["node_modules"]
+}
