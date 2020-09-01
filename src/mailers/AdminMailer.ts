@@ -1,14 +1,19 @@
 import { Email } from "helpers/ConfigurationHelper";
+import { AdminInterface } from "interfaces/AdminInterface";
 
 class AdminMailer {
-  static createPasswordMail = async () => {
+  static createPasswordMail = async (
+    passwordLink: string,
+    admin: AdminInterface
+  ) => {
     const resp = await Email.send({
       template: "CreatePassword",
       message: {
-        to: "girikulkarni03@gmail.com",
+        to: admin.email,
       },
       locals: {
-        user: { name: "Girish" },
+        passwordLink,
+        admin,
       },
     });
   };

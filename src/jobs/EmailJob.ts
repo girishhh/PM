@@ -15,7 +15,10 @@ class EmailJob {
         switch (job.data.mailType) {
           case "createPasswordMail":
             job.progress(42);
-            await AdminMailer.createPasswordMail();
+            await AdminMailer.createPasswordMail(
+              job.data.passwordLink,
+              job.data.admin
+            );
             done();
           default:
         }

@@ -10,6 +10,7 @@ import { ResponseError } from "interfaces/CommonInterface";
 import { adminRoute } from "routes/admins/AdminRoute";
 import { setQueues } from "bull-board";
 import { emailJob } from "jobs/EmailJob";
+import loadash from "lodash";
 
 export class Server {
   private app: express.Express;
@@ -72,10 +73,13 @@ export class Server {
       ) => {
         logger.error(`${err.status}: ${err.message}`);
         res.status(err.status || 500);
-        res.send({
-          message: err.message,
-          error: err,
-        });
+        const errors = !loadash.isEmpty(err.errors)
+          ? { errors: err.errors }
+          : {
+              message: err.message,
+              error: err,
+            };
+        res.send(errors);
       }
     );
   };

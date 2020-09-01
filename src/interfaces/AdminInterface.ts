@@ -7,6 +7,7 @@ interface AdminInterface extends mongoose.Document {
   email: string;
   password: string;
   company: CompanyInterface;
+  isActive: boolean;
 }
 
 export { AdminInterface };

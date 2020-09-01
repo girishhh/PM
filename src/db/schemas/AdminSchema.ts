@@ -1,4 +1,4 @@
-import mongoose, { Document } from "mongoose";
+import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import {
   emailValidationRegex,
@@ -16,6 +16,7 @@ const AdminSchema = new schema({
       validator: (value: string) => emailValidationRegex.test(value),
       message: "Invalid email",
     },
+    unique: true,
     required: [true, "Email field is required"],
   },
   password: {
