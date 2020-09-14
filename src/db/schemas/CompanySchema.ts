@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { AddressSchema } from "./AddressSchema";
 
 const schema = mongoose.Schema;
 

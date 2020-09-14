@@ -1,5 +1,5 @@
 const createPasswordLink = (hostName: string, token: String) => {
-  return `${hostName}/admins/create-password?token${token}`;
+  return `${hostName}/admins/create-password?token=${token}`;
 };
 
 export { createPasswordLink };

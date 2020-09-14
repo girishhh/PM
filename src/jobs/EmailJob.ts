@@ -1,6 +1,6 @@
 import Queue from "bull";
-import AdminMailer from "mailers/AdminMailer";
-import { response } from "express";
+import AdminMailer from "../mailers/AdminMailer";
+import rootPath from "app-root-path";
 
 class EmailJob {
   emailQueue: Queue.Queue<any>;
@@ -9,23 +9,8 @@ class EmailJob {
     this.perform();
   }
 
-  perform = () => {
-    this.emailQueue.process(async (job, done) => {
-      try {
-        switch (job.data.mailType) {
-          case "createPasswordMail":
-            job.progress(42);
-            await AdminMailer.createPasswordMail(
-              job.data.passwordLink,
-              job.data.admin
-            );
-            done();
-          default:
-        }
-      } catch (error) {
-        done(new Error(error.message));
-      }
-    });
+  perform = async () => {
+    this.emailQueue.process(`${rootPath}/src/jobs/EmailJobProcess.ts`);
   };
 }
 

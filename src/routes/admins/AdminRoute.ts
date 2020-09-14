@@ -1,9 +1,9 @@
 import express, { Router } from "express";
-import { Admin } from "db/models/AdminModel";
+import { Admin } from "../../db/models/AdminModel";
 import crypto from "crypto";
-import { createPasswordLink } from "helpers/AdminHelper";
+import { createPasswordLink } from "../../helpers/AdminHelper";
 import { UI } from "bull-board";
-import { emailJob } from "jobs/EmailJob";
+import { emailJob } from "../../jobs/EmailJob";
 import "express-async-errors";
 
 class AdminRoute {
@@ -16,7 +16,7 @@ class AdminRoute {
 
   private createRoutes = () => {
     this.router.post("/", async (req, res, next) => {
-      const { firstName, lastName, email, companyId } = req.body;
+      const { firstName, lastName, email, companyId, birthDate } = req.body;
       const token = crypto.randomBytes(20).toString("hex");
       const passwordLink = createPasswordLink(
         `${req.protocol}://${req.headers.host}`,
@@ -49,6 +49,8 @@ class AdminRoute {
       }
       res.status(200).send(admin?.toJSON());
     });
+
+    this.router.post("/auth/login");
 
     this.router.use("/queues", UI);
   };

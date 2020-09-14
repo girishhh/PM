@@ -1,5 +1,5 @@
-import { Email } from "helpers/ConfigurationHelper";
-import { AdminInterface } from "interfaces/AdminInterface";
+import { Email } from "../helpers/ConfigurationHelper";
+import { AdminInterface } from "../interfaces/AdminInterface";
 
 class AdminMailer {
   static createPasswordMail = async (

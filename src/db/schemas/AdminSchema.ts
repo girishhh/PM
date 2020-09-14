@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import {
   emailValidationRegex,
   passwordValidationRegex,
-} from "constants/AuthConstants";
+} from "../../constants/AuthConstants";
 
 const schema = mongoose.Schema;
 
