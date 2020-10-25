@@ -5,7 +5,7 @@ import rootPath from "app-root-path";
 class EmailJob {
   emailQueue: Queue.Queue<any>;
   constructor() {
-    this.emailQueue = new Queue("email-queue", "redis://127.0.0.1:6379");
+    this.emailQueue = new Queue("email-queue", "redis://192.168.99.100:6379");
     this.perform();
   }
 

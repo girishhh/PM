@@ -6,9 +6,10 @@ interface AddressInterface extends mongoose.Document {
   state: string;
   district: string;
   postalCode: string;
-  address: string;
-  secondaryAddress: string;
-  companyId: string;
+  house: String;
+  street: String;
+  landMark: String;
+  primary: Boolean;
   modelId: string;
   modelName: string;
 }

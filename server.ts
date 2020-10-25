@@ -1,20 +1,27 @@
+import { setQueues } from "bull-board";
 import cookieParser from "cookie-parser";
-import express from "express";
+import express, { Request as ExpressRequest } from "express";
 import http from "http";
 import createError from "http-errors";
+import loadash from "lodash";
 import mongoose from "mongoose";
 import morgan from "morgan";
-import { logger, stream } from "./src/config/LoggerConfig";
-import { indexRouter } from "./src/routes";
-import { ResponseError } from "./src/interfaces/CommonInterface";
-import { adminRoute } from "./src/routes/admins/AdminRoute";
-import { setQueues } from "bull-board";
-import { emailJob } from "./src/jobs/EmailJob";
-import loadash from "lodash";
 import passport from "passport";
-import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
-import { Admin } from "./src/db/models/AdminModel";
+import {
+  ExtractJwt,
+  Strategy as JwtStrategy,
+  VerifiedCallback,
+} from "passport-jwt";
+import { logger, stream } from "./src/config/LoggerConfig";
+import { ROLES } from "./src/constants/UserConstants";
+import { User } from "./src/db/models/UserModel";
 import { authMiddleware } from "./src/helpers/AuthHelper";
+import { Request, ResponseError } from "./src/interfaces/CommonInterface";
+import { emailJob } from "./src/jobs/EmailJob";
+import { restaurentGroupRoute } from "./src/routes/restaurent-groups/RestaurentGroupRoute";
+import { restaurentRoute } from "./src/routes/restaurents/RestaurentRoute";
+import { userRoute } from "./src/routes/users/UserRoute";
+import CircularJSON from "circular-json";
 
 export class Server {
   private app: express.Express;
@@ -33,17 +40,21 @@ export class Server {
   setDbConnection = async () => {
     try {
       if (mongoose.connection.readyState === 0) {
-        await mongoose.connect("mongodb://localhost:27017/pm", {
-          useNewUrlParser: true,
-          autoIndex: false,
-        });
+        await mongoose.connect(
+          "mongodb://localhost:27017,localhost:27018,localhost:27019/pm",
+          {
+            useNewUrlParser: true,
+            autoIndex: false,
+            useUnifiedTopology: true,
+          }
+        );
         mongoose.set(
           "debug",
           (collection: any, method: any, query: any, doc: any) => {
             logger.info(
               `Mongoose: ${collection}.${method}(${JSON.stringify(
                 query
-              )}), ${JSON.stringify(doc)}`
+              )}), ${CircularJSON.stringify(doc)}`
             );
           }
         );
@@ -64,8 +75,9 @@ export class Server {
   };
 
   setRoutes = () => {
-    this.app.use("/", indexRouter);
-    this.app.use("/admins", adminRoute);
+    this.app.use("/users", userRoute);
+    this.app.use("/restaurent-groups", restaurentGroupRoute);
+    this.app.use("/restaurents", restaurentRoute);
     this.app.use(function (
       req: express.Request,
       res: express.Response,
@@ -80,11 +92,23 @@ export class Server {
   setPassportStrategy = () => {
     const opts: any = {};
     opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-    opts.secretOrKey = "secret";
+    opts.secretOrKey = process.env.JWT_SECRET;
+    opts.passReqToCallback = true;
     passport.use(
-      new JwtStrategy(opts, async function (jwt_payload, done) {
-        const admin = await Admin.findById(jwt_payload.sub);
-        if (admin) return done(null, admin);
+      new JwtStrategy(opts, async function (
+        request: ExpressRequest,
+        payload: any,
+        done: VerifiedCallback
+      ) {
+        if (payload.roles.includes(ROLES.SUPER_ADMIN)) {
+          const user = await User.findById(payload._id);
+          if (user) return done(null, user.toJSON());
+          return done(null, false);
+        }
+        const subdomain = request.header("subdomain") || "";
+        (request as Request).subdomain = subdomain;
+        const user = await User.findOne({ id: payload._id, subdomain });
+        if (user) return done(null, user.toJSON());
         return done(null, false);
       })
     );

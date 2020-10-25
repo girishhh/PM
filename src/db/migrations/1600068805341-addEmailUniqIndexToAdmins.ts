@@ -1,11 +1,11 @@
-import { Admin } from "../models/AdminModel";
 import { Server } from "../../../server";
+import { User } from "../models/UserModel";
 
 const server = new Server();
 server.setDbConnection();
 
 module.exports.up = async function (next: any) {
-  await Admin.collection.createIndex(
+  await User.collection.createIndex(
     { email: 1 },
     { name: "emailUniqueAdmin", unique: true }
   );
@@ -13,6 +13,6 @@ module.exports.up = async function (next: any) {
 };
 
 module.exports.down = async function (next: any) {
-  await Admin.collection.dropIndex("emailUniqueAdmin");
+  await User.collection.dropIndex("emailUniqueAdmin");
   next();
 };

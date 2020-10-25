@@ -7,9 +7,13 @@ const AddressSchema = new schema({
   state: String,
   district: String,
   postalCode: String,
-  address: String,
-  secondaryAddress: String,
-  companyId: String,
+  house: String,
+  street: String,
+  landMark: String,
+  primary: {
+    type: Boolean,
+    default: false,
+  },
   modelId: {
     type: schema.Types.ObjectId,
     required: true,
@@ -18,7 +22,7 @@ const AddressSchema = new schema({
   modelName: {
     type: String,
     required: true,
-    enum: ["Company"],
+    enum: ["Restaurent", "User", "RestaurentGroup"],
   },
 });
 

@@ -3,7 +3,7 @@
   "migrations": [
     {
       "title": "1600068805341-addEmailUniqIndexToAdmins.ts",
-      "timestamp": 1600069002627
+      "timestamp": 1603045397869
     }
   ]
 }
