@@ -15,7 +15,7 @@ import {
 import { logger, stream } from "./src/config/LoggerConfig";
 import { ROLES } from "./src/constants/UserConstants";
 import { User } from "./src/db/models/UserModel";
-import { authMiddleware } from "./src/helpers/AuthHelper";
+import { authMiddleware, setDomain } from "./src/helpers/AuthHelper";
 import { Request, ResponseError } from "./src/interfaces/CommonInterface";
 import { emailJob } from "./src/jobs/EmailJob";
 import { restaurentGroupRoute } from "./src/routes/restaurent-groups/RestaurentGroupRoute";
@@ -33,6 +33,7 @@ export class Server {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(cookieParser());
+    this.app.use(setDomain);
     this.app.use(passport.initialize());
     this.app.use(authMiddleware);
   }
@@ -105,9 +106,11 @@ export class Server {
           if (user) return done(null, user.toJSON());
           return done(null, false);
         }
-        const subdomain = request.header("subdomain") || "";
-        (request as Request).subdomain = subdomain;
-        const user = await User.findOne({ id: payload._id, subdomain });
+        const subdomain = (request as Request).subdomain;
+        const user = await User.findOne({
+          _id: payload._id,
+          subdomain,
+        });
         if (user) return done(null, user.toJSON());
         return done(null, false);
       })
