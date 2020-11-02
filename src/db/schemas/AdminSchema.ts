@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import {
-  emailValidationRegex,
-  passwordValidationRegex,
+  EMAIL_VALIDATION_REGEXP,
+  PWD_VALIDATION_REGEXP,
 } from "../../constants/AuthConstants";
 
 const schema = mongoose.Schema;
@@ -13,7 +13,7 @@ const AdminSchema = new schema({
   email: {
     type: String,
     validate: {
-      validator: (value: string) => emailValidationRegex.test(value),
+      validator: (value: string) => EMAIL_VALIDATION_REGEXP.test(value),
       message: "Invalid email",
     },
     unique: true,
@@ -22,7 +22,7 @@ const AdminSchema = new schema({
   password: {
     type: String,
     validate: {
-      validator: (value: string) => passwordValidationRegex.test(value),
+      validator: (value: string) => PWD_VALIDATION_REGEXP.test(value),
       message: "Invalid password",
     },
   },

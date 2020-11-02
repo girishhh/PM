@@ -1,6 +1,6 @@
 import express, { Router } from "express";
 import { Admin } from "../../db/models/AdminModel";
-import "express-async-errors";
+import "routes/companies/node_modules/express-async-errors";
 
 class AdminRoute {
   router: Router;

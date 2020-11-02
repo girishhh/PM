@@ -1,20 +1,16 @@
-import { NextFunction, Request as ExpressReq, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import passport from "passport";
-import { publicRoutes } from "../constants/AuthConstants";
-import { Request } from "../interfaces/CommonInterface";
+import { PUBLIC_ROUTES } from "../constants/AuthConstants";
 
-const authMiddleware = (req: ExpressReq, res: Response, next: NextFunction) => {
-  if (publicRoutes.includes(req.path)) {
+const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  if (
+    PUBLIC_ROUTES.includes(req.path) ||
+    new RegExp("^(/users/queues)").test(req.path)
+  ) {
     next();
   } else {
     passport.authenticate("jwt", { session: false })(req, res, next);
   }
 };
 
-const setDomain = (req: ExpressReq, res: Response, next: NextFunction) => {
-  const subdomain = req.header("subdomain") || "";
-  (req as Request).subdomain = subdomain;
-  next();
-};
-
-export { authMiddleware, setDomain };
+export { authMiddleware };

@@ -1,5 +1,9 @@
-const createPasswordLink = (hostName: string, token: String) => {
-  return `${hostName}/admins/create-password?token=${token}`;
+const getCreatePasswordLink = (hostName: string, token: String) => {
+  return `${hostName}/users/activate-account?token=${token}`;
 };
 
-export { createPasswordLink };
+const getConfirmationLink = (hostName: string, token: String) => {
+  return `${hostName}/users/activate-account?token=${token}`;
+};
+
+export { getCreatePasswordLink, getConfirmationLink };

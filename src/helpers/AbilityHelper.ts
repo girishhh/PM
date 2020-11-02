@@ -5,7 +5,8 @@ type Subject =
   | ROLES.ADMIN
   | ROLES.DELIVERY_BOY
   | ROLES.OWNER
-  | ROLES.SUPER_ADMIN;
+  | ROLES.SUPER_ADMIN
+  | "company";
 
 type AppAbility = Ability<[Action, Subject]>;
 
@@ -16,9 +17,10 @@ const defineAbilities = (roles: ROLES[]): Ability => {
     switch (roles[i]) {
       case ROLES.ADMIN:
         can("create", ROLES.OWNER);
+        can("create", ROLES.DELIVERY_BOY);
+        can("create", "company");
         break;
       case ROLES.OWNER:
-        can("create", ROLES.DELIVERY_BOY);
         break;
       case ROLES.SUPER_ADMIN:
         can("create", ROLES.ADMIN);

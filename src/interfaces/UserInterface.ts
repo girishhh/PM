@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { AddressInterface } from "./AddressInterface";
+import { CompanyInterface } from "./CompanyInterface";
 
 interface UserInterface extends mongoose.Document {
   firstName: string;
@@ -11,7 +12,7 @@ interface UserInterface extends mongoose.Document {
   roles: string[];
   active: boolean;
   token: string;
-  subdomain: string;
+  company: CompanyInterface;
 }
 
 export { UserInterface };

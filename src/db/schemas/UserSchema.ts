@@ -1,10 +1,11 @@
+import bcrypt from "bcrypt";
+import mongoose from "mongoose";
 import {
-  emailValidationRegex,
-  passwordValidationRegex,
+  EMAIL_VALIDATION_REGEXP,
+  PWD_VALIDATION_REGEXP,
 } from "../../constants/AuthConstants";
 import { ROLES } from "../../constants/UserConstants";
-import mongoose from "mongoose";
-import bcrypt from "bcrypt";
+import { attachCompanyToQuery } from "../../helpers/MongooseHelper";
 
 const schema = mongoose.Schema;
 
@@ -13,7 +14,6 @@ const UserSchema = new schema({
   lastName: String,
   city: String,
   token: String,
-  subdomain: String,
   active: {
     type: Boolean,
     default: false,
@@ -21,7 +21,7 @@ const UserSchema = new schema({
   email: {
     type: String,
     validate: {
-      validator: (value: string) => emailValidationRegex.test(value),
+      validator: (value: string) => EMAIL_VALIDATION_REGEXP.test(value),
       message: "Invalid email",
     },
     unique: true,
@@ -30,26 +30,25 @@ const UserSchema = new schema({
   password: {
     type: String,
     validate: {
-      validator: (value: string) => passwordValidationRegex.test(value),
+      validator: (value: string) => PWD_VALIDATION_REGEXP.test(value),
       message: "Invalid password",
     },
   },
-  address: { type: schema.Types.ObjectId, ref: "Address" },
+  addresses: [{ type: schema.Types.ObjectId, ref: "Address" }],
   roles: {
     type: [String],
-    enum: [ROLES.ADMIN, ROLES.SUPER_ADMIN, ROLES.OWNER, ROLES.DELIVERY_BOY],
+    enum: [
+      ROLES.ADMIN,
+      ROLES.SUPER_ADMIN,
+      ROLES.OWNER,
+      ROLES.DELIVERY_BOY,
+      ROLES.CUSTOMER,
+    ],
   },
-  modelId: {
-    type: schema.Types.ObjectId,
-    required: true,
-    refPath: "modelName",
-  },
-  modelName: {
-    type: String,
-    required: true,
-    enum: ["RestaurentGroup", "Restaurent"],
-  },
+  company: { type: schema.Types.ObjectId, ref: "Company" },
 });
+
+attachCompanyToQuery(UserSchema);
 
 UserSchema.pre("save", function (next) {
   const self: any = this;

@@ -1,27 +1,27 @@
-import express, {
-  NextFunction,
-  Request as ExpressRequest,
-  Response,
-  Router,
-} from "express";
+import bcrypt from "bcrypt";
+import { UI } from "bull-board";
+import crypto from "crypto";
+import express, { NextFunction, Request, Response, Router } from "express";
+import "express-async-errors";
+import httpContext from "express-http-context";
+import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 // @ts-ignore
 import params from "params";
-import "express-async-errors";
-import mongoose from "mongoose";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { UserInterface } from "../../interfaces/UserInterface";
-import { allowed, defineAbilities } from "../../helpers/AbilityHelper";
+import { COMPANY_ID } from "../../constants/CompanyConstants";
 import {
   ROLES,
   ROLES_NEEDS_PASSWORD_MAIL,
 } from "../../constants/UserConstants";
-import { User } from "../../db/models/UserModel";
 import { Address } from "../../db/models/AddressModel";
-import crypto from "crypto";
-import { createPasswordLink } from "../../helpers/AdminHelper";
+import { User } from "../../db/models/UserModel";
+import { allowed, defineAbilities } from "../../helpers/AbilityHelper";
+import {
+  getConfirmationLink,
+  getCreatePasswordLink,
+} from "../../helpers/AdminHelper";
+import { UserInterface } from "../../interfaces/UserInterface";
 import { emailJob } from "../../jobs/EmailJob";
-import { Request } from "../../interfaces/CommonInterface";
 
 class UserRoute {
   router: Router;
@@ -38,11 +38,8 @@ class UserRoute {
         "lastName",
         "city",
         "roles",
-        "email",
-        "modelName",
-        "modelId"
+        "email"
       );
-      userFormData.subdomain = (req as Request).subdomain;
       if (ROLES_NEEDS_PASSWORD_MAIL.includes(userFormData.roles[0]))
         userFormData.token = crypto.randomBytes(20).toString("hex");
       const addressFormData = params(req.body).only("address");
@@ -51,6 +48,7 @@ class UserRoute {
       if (allowed(ability, userFormData.roles, "create")) {
         const session = await mongoose.startSession();
         const userObj = new User(userFormData);
+        userObj.company = httpContext.get(COMPANY_ID);
         const addressObj = new Address({
           ...addressFormData,
           modelName: "User",
@@ -61,14 +59,14 @@ class UserRoute {
           if (address) {
             const user = await userObj.save({ session });
             if (user.token) {
-              const passwordLink = createPasswordLink(
+              const passwordLink = getCreatePasswordLink(
                 `${req.protocol}://${req.headers.host}`,
                 userFormData.token
               );
               emailJob.emailQueue.add({
                 mailType: "createPasswordMail",
                 passwordLink,
-                admin: user.toJSON(),
+                user: user.toJSON(),
               });
             }
             res.status(201).json(user);
@@ -79,11 +77,15 @@ class UserRoute {
       }
     });
 
-    this.router.put("/create-password", async (req, res, next) => {
+    this.router.put("/activate-account", async (req, res, next) => {
       const { token, password } = req.body;
       let user = await User.findOne({ token, active: false });
       if (user) {
-        user.set({ password, active: true });
+        if (password) {
+          user.set({ password, active: true });
+        } else {
+          user.set({ active: true });
+        }
         user = await user.save();
       } else {
         res.status(404).send();
@@ -93,7 +95,7 @@ class UserRoute {
 
     this.router.post(
       "/sign-in",
-      async (req: ExpressRequest, res: Response, next: NextFunction) => {
+      async (req: Request, res: Response, next: NextFunction) => {
         const formData = params(req.body).only("email", "password");
         const user = await User.findOne({ email: formData.email });
         if (user) {
@@ -117,6 +119,49 @@ class UserRoute {
         }
       }
     );
+
+    this.router.post(
+      "/sign-up",
+      async (req: Request, res: Response, next: NextFunction) => {
+        await httpContext.ns.runPromise(async () => {
+          const userFormData = params(req.body).only(
+            "firstName",
+            "lastName",
+            "city",
+            "email",
+            "password"
+          );
+          userFormData.roles = ["customer"];
+          userFormData.token = crypto.randomBytes(20).toString("hex");
+          const addressFormData = params(req.body).only("address");
+          const session = await mongoose.startSession();
+          const userObj = new User(userFormData);
+          const addressObj = new Address({
+            ...addressFormData,
+            modelName: "User",
+            modelId: userObj.id,
+          });
+          await session.withTransaction(async () => {
+            const address = await addressObj.save({ session });
+            if (address) {
+              const user = await userObj.save({ session });
+              const confirmationLink = getConfirmationLink(
+                `${req.protocol}://${req.headers.host}`,
+                userFormData.token
+              );
+              emailJob.emailQueue.add({
+                mailType: "sendConfirmationMail",
+                confirmationLink,
+                user: user.toJSON(),
+              });
+              res.status(201).json(user);
+            }
+          });
+        });
+      }
+    );
+
+    this.router.use("/queues", UI);
   };
 }
 

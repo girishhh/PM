@@ -22,8 +22,9 @@ const AddressSchema = new schema({
   modelName: {
     type: String,
     required: true,
-    enum: ["Restaurent", "User", "RestaurentGroup"],
+    enum: ["Company", "User"],
   },
+  company: { type: schema.Types.ObjectId, ref: "Company" },
 });
 
 export { AddressSchema };

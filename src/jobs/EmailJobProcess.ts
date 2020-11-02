@@ -1,13 +1,20 @@
-import AdminMailer from "../mailers/AdminMailer";
+import UserMailer from "../mailers/UserMailer";
 
 const emailProcess = async (job: any, done: any): Promise<void> => {
   try {
     switch (job.data.mailType) {
       case "createPasswordMail":
         job.progress(42);
-        await AdminMailer.createPasswordMail(
+        await UserMailer.createPasswordMail(
           job.data.passwordLink,
-          job.data.admin
+          job.data.user
+        );
+        done();
+      case "sendConfirmationMail":
+        job.progress(42);
+        await UserMailer.sendConfirmationMail(
+          job.data.confirmationLink,
+          job.data.user
         );
         done();
       default:

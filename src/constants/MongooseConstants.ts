@@ -1,0 +1,15 @@
+export const QUERY_METHODS = [
+  "count",
+  "deleteMany",
+  "deleteOne",
+  "find",
+  "findOne",
+  "findOneAndDelete",
+  "findOneAndRemove",
+  "findOneAndUpdate",
+  "remove",
+  "update",
+  "updateOne",
+  "updateMany",
+  "save",
+];

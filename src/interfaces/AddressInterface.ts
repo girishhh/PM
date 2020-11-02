@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { CompanyInterface } from "./CompanyInterface";
 
 interface AddressInterface extends mongoose.Document {
   country: string;
@@ -12,6 +13,7 @@ interface AddressInterface extends mongoose.Document {
   primary: Boolean;
   modelId: string;
   modelName: string;
+  company: CompanyInterface;
 }
 
 export { AddressInterface };

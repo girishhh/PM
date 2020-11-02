@@ -4,7 +4,7 @@ import crypto from "crypto";
 import { createPasswordLink } from "../../helpers/AdminHelper";
 import { UI } from "bull-board";
 import { emailJob } from "../../jobs/EmailJob";
-import "express-async-errors";
+import "routes/companies/node_modules/express-async-errors";
 import { SuperAdmin } from "../../db/models/SuperAdminModel";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";

@@ -1,5 +1,5 @@
 import Queue from "bull";
-import AdminMailer from "../mailers/AdminMailer";
+import UserMailer from "../mailers/UserMailer";
 import rootPath from "app-root-path";
 
 class EmailJob {

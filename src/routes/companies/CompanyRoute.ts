@@ -3,9 +3,9 @@ import "express-async-errors";
 // @ts-ignore
 import params from "params";
 import "express-async-errors";
-import { RestaurentGroup } from "../../db/models/RestaurentGroupModel";
+import { Company } from "../../db/models/CompanyModel";
 
-class RestaurentGroupRoute {
+class CompanyRoute {
   router: Router;
 
   constructor() {
@@ -17,13 +17,18 @@ class RestaurentGroupRoute {
     this.router.post(
       "/",
       async (req: Request, res: Response, next: NextFunction) => {
-        const formData = params(req.body).only("name");
-        const restaurentGroupObj = new RestaurentGroup(formData);
-        const restaurentGroup = await restaurentGroupObj.save();
-        if (restaurentGroup) res.status(201).json(restaurentGroup);
+        const formData = params(req.body).only(
+          "name",
+          "city",
+          "subdomain",
+          "timeZone"
+        );
+        const companyObj = new Company(formData);
+        const company = await companyObj.save();
+        if (company) res.status(201).json(company);
       }
     );
   };
 }
 
-export const restaurentGroupRoute = new RestaurentGroupRoute().router;
+export const companyRoute = new CompanyRoute().router;
