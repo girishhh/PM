@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { attachCompanyToQuery } from "../../helpers/MongooseHelper";
 const schema = mongoose.Schema;
 
 const AddressSchema = new schema({
@@ -26,5 +27,7 @@ const AddressSchema = new schema({
   },
   company: { type: schema.Types.ObjectId, ref: "Company" },
 });
+
+attachCompanyToQuery(AddressSchema);
 
 export { AddressSchema };

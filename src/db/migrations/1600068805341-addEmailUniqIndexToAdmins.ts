@@ -6,13 +6,13 @@ server.setDbConnection();
 
 module.exports.up = async function (next: any) {
   await User.collection.createIndex(
-    { email: 1 },
-    { name: "emailUniqueAdmin", unique: true }
+    { email: 1, company: 1 },
+    { name: "emailCompanyUniq", unique: true }
   );
   next();
 };
 
 module.exports.down = async function (next: any) {
-  await User.collection.dropIndex("emailUniqueAdmin");
+  await User.collection.dropIndex("emailCompanyUniq");
   next();
 };

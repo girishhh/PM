@@ -13,10 +13,6 @@ export const setCompany = async (
   let company: CompanyInterface | null;
   const subdomain = req.header("subdomain") || "";
   if (subdomain) {
-    if (SUPER_ADMIN_DOMAINS.includes(subdomain)) {
-      next();
-      return;
-    }
     company = await Company.findOne({ subdomain });
     httpContext.set(COMPANY_ID, company?._id.toString());
     if (!company) {

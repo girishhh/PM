@@ -50,7 +50,7 @@ const UserSchema = new schema({
 
 attachCompanyToQuery(UserSchema);
 
-UserSchema.pre("save", function (next) {
+UserSchema.pre("findOneAndUpdate", function (next) {
   const self: any = this;
   if (self.password) self.password = bcrypt.hashSync(self.password, 10);
   next();
