@@ -1,5 +1,4 @@
 import express, { Router } from "express";
-import { Admin } from "db/models/AdminModel";
 
 class IndexRouter {
   router: Router;

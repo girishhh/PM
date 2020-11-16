@@ -6,6 +6,12 @@ enum ROLES {
   CUSTOMER = "customer",
 }
 
+enum PERMISSIONS {
+  CREATE_ADMIN = "createAdmin",
+  CREATE_OWNER = "createOwner",
+  CREATE_DELIVERY_BOY = "createDeliveryBoy",
+}
+
 const ROLES_NEEDS_PASSWORD_MAIL = ["admin", "owner", "deliveryBoy"];
 
 export { ROLES, ROLES_NEEDS_PASSWORD_MAIL };

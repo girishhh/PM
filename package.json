@@ -9,7 +9,6 @@
     "migrate:down": "migrate down --compiler=ts:./export-ts-node.js --migrations-dir src/db/migrations"
   },
   "dependencies": {
-    "@casl/ability": "^4.1.6",
     "@types/circular-json": "^0.4.0",
     "@types/jsonwebtoken": "^8.5.0",
     "app-root-path": "^3.0.0",
@@ -51,7 +50,7 @@
     "@types/express": "4.16.1",
     "@types/http-errors": "^1.8.0",
     "@types/jws": "^3.2.2",
-    "@types/lodash": "^4.14.161",
+    "@types/lodash": "^4.14.165",
     "@types/mongoose": "^5.7.32",
     "@types/morgan": "^1.9.1",
     "@types/node-cron": "^2.0.3",

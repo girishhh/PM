@@ -13,6 +13,9 @@ interface UserInterface extends mongoose.Document {
   active: boolean;
   token: string;
   company: CompanyInterface;
+  populatePermissions: Function;
+  JSON: Function;
+  permissions: string[];
 }
 
 export { UserInterface };

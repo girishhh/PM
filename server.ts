@@ -104,16 +104,11 @@ export class Server {
         done: VerifiedCallback
       ) {
         await httpContext.ns.runPromise(async () => {
-          // if (payload.roles.includes(ROLES.SUPER_ADMIN)) {
-          //   const user = await User.findById(payload._id);
-          //   if (user) return done(null, user.toJSON());
-          //   return done(null, false);
-          // }
           const user = await User.findOne({
             _id: payload._id,
             company: httpContext.get(COMPANY_ID),
-          });
-          if (user) return done(null, user.toJSON());
+          }).populate("roles");
+          if (user) return done(null, user.JSON());
           return done(null, false);
         });
       })

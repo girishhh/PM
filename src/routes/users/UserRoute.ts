@@ -8,18 +8,15 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 // @ts-ignore
 import params from "params";
-import { COMPANY_ID } from "../../constants/CompanyConstants";
-import {
-  ROLES,
-  ROLES_NEEDS_PASSWORD_MAIL,
-} from "../../constants/UserConstants";
+import { ROLES_NEEDS_PASSWORD_MAIL } from "../../constants/UserConstants";
 import { Address } from "../../db/models/AddressModel";
+import { Role } from "../../db/models/RoleModel";
 import { User } from "../../db/models/UserModel";
-import { allowed, defineAbilities } from "../../helpers/AbilityHelper";
 import {
   getConfirmationLink,
   getCreatePasswordLink,
 } from "../../helpers/AdminHelper";
+import { allowed, getPermissionName } from "../../helpers/UserHelper";
 import { UserInterface } from "../../interfaces/UserInterface";
 import { emailJob } from "../../jobs/EmailJob";
 
@@ -46,10 +43,16 @@ class UserRoute {
           userFormData.token = crypto.randomBytes(20).toString("hex");
         const addressFormData = params(req.body).only("address");
         const currentUser = req.user as UserInterface;
-        const ability = defineAbilities(currentUser.roles as ROLES[]);
-        if (allowed(ability, userFormData.roles, "create")) {
+        if (
+          allowed(
+            currentUser.permissions,
+            getPermissionName("create", userFormData.roles[0])
+          )
+        ) {
           const session = await mongoose.startSession();
-          const userObj = new User(userFormData);
+          const roleName = userFormData.roles[0] as string;
+          const roleId = await Role.findOne({ name: roleName.toLowerCase() });
+          const userObj = new User({ ...userFormData, roles: [roleId] });
           const addressObj = new Address({
             ...addressFormData,
             modelName: "User",
@@ -67,7 +70,7 @@ class UserRoute {
                 emailJob.emailQueue.add({
                   mailType: "createPasswordMail",
                   passwordLink,
-                  user: user.toJSON(),
+                  user: user.JSON(),
                 });
               }
               res.status(201).json(user);
@@ -97,7 +100,7 @@ class UserRoute {
           { new: true }
         ).exec();
         if (!user) res.status(404).send();
-        res.status(200).send(user?.toJSON());
+        res.status(200).send(user?.JSON());
       });
     });
 
@@ -106,7 +109,9 @@ class UserRoute {
       async (req: Request, res: Response, next: NextFunction) => {
         await httpContext.ns.runPromise(async () => {
           const formData = params(req.body).only("email", "password");
-          const user = await User.findOne({ email: formData.email });
+          const user = await User.findOne({ email: formData.email }).populate(
+            "roles"
+          );
           if (user) {
             const passwordMatch = bcrypt.compareSync(
               formData.password,
@@ -114,7 +119,7 @@ class UserRoute {
             );
             if (passwordMatch) {
               const accessToken = jwt.sign(
-                user.toJSON(),
+                user?.JSON(),
                 process.env.JWT_SECRET as string
               );
               res.json({ accessToken }).status(200);
@@ -141,13 +146,15 @@ class UserRoute {
             "lastName",
             "city",
             "email",
-            "password"
+            "password",
+            "roles"
           );
-          userFormData.roles = ["customer"];
           userFormData.token = crypto.randomBytes(20).toString("hex");
           const addressFormData = params(req.body).only("address");
           const session = await mongoose.startSession();
-          const userObj = new User(userFormData);
+          const roleName = userFormData.roles[0] as string;
+          const roleId = await Role.findOne({ name: roleName.toLowerCase() });
+          const userObj = new User({ ...userFormData, roles: [roleId] });
           const addressObj = new Address({
             ...addressFormData,
             modelName: "User",
@@ -164,7 +171,7 @@ class UserRoute {
               emailJob.emailQueue.add({
                 mailType: "sendConfirmationMail",
                 confirmationLink,
-                user: user.toJSON(),
+                user: user.JSON(),
               });
               res.status(201).json(user);
             }
