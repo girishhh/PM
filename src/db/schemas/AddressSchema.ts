@@ -23,7 +23,7 @@ const AddressSchema = new schema({
   modelName: {
     type: String,
     required: true,
-    enum: ["Company", "User"],
+    enum: ["Company", "User", "Restaurent"],
   },
   company: { type: schema.Types.ObjectId, ref: "Company" },
 });

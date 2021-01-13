@@ -1,7 +1,7 @@
 enum ROLES {
   ADMIN = "admin",
-  SUPER_ADMIN = "superAdmin",
   OWNER = "owner",
+  COMPANY_ADMIN = "companyAdmin",
   DELIVERY_BOY = "deliveryBoy",
   CUSTOMER = "customer",
 }
@@ -12,6 +12,8 @@ enum PERMISSIONS {
   CREATE_DELIVERY_BOY = "createDeliveryBoy",
 }
 
-const ROLES_NEEDS_PASSWORD_MAIL = ["admin", "owner", "deliveryBoy"];
+const ROLES_NEEDS_PASSWORD_MAIL = ["companyAdmin", "owner", "deliveryBoy"];
 
-export { ROLES, ROLES_NEEDS_PASSWORD_MAIL };
+const USER_ID = "USER_ID";
+
+export { ROLES, ROLES_NEEDS_PASSWORD_MAIL, USER_ID };

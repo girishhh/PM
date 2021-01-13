@@ -1,12 +1,13 @@
+import { Response } from "express";
 import mongoose from "mongoose";
 import {
   EMAIL_VALIDATION_REGEXP,
   PWD_VALIDATION_REGEXP,
 } from "../../constants/AuthConstants";
-import { ROLES } from "../../constants/UserConstants";
 import { attachCompanyToQuery } from "../../helpers/MongooseHelper";
 import { RoleInterface } from "../../interfaces/RoleInterface";
 import { UserInterface } from "../../interfaces/UserInterface";
+import { User } from "../models/UserModel";
 
 const schema = mongoose.Schema;
 
@@ -38,6 +39,7 @@ const UserSchema = new schema({
   addresses: [{ type: schema.Types.ObjectId, ref: "Address" }],
   roles: [{ type: schema.Types.ObjectId, ref: "Role" }],
   company: { type: schema.Types.ObjectId, ref: "Company" },
+  restaurent: { type: schema.Types.ObjectId, ref: "Restaurent" },
 });
 
 UserSchema.virtual("permissions").get(function (this: UserInterface) {
@@ -55,5 +57,13 @@ UserSchema.methods.JSON = function () {
 };
 
 attachCompanyToQuery(UserSchema);
+
+UserSchema.pre("find", function () {
+  this.populate("addresses");
+});
+
+UserSchema.pre("findOne", function () {
+  this.populate("addresses");
+});
 
 export { UserSchema };

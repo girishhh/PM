@@ -1,6 +1,7 @@
 import { setQueues } from "bull-board";
 import CircularJSON from "circular-json";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import express, { Request } from "express";
 import httpContext from "express-http-context";
 import http from "http";
@@ -15,15 +16,17 @@ import {
   VerifiedCallback,
 } from "passport-jwt";
 import { logger, stream } from "./src/config/LoggerConfig";
-import { ROLES } from "./src/constants/UserConstants";
+import { COMPANY_ID } from "./src/constants/CompanyConstants";
 import { User } from "./src/db/models/UserModel";
 import { authMiddleware } from "./src/helpers/AuthHelper";
-import { setCompany } from "./src/helpers/StorageHelper";
+import { setCompany, setCurrentUser } from "./src/helpers/StorageHelper";
 import { ResponseError } from "./src/interfaces/CommonInterface";
 import { emailJob } from "./src/jobs/EmailJob";
 import { companyRoute } from "./src/routes/companies/CompanyRoute";
+import { foodCategoryRoute } from "./src/routes/foods/FoodCategoryRoute";
+import { foodItemRoute } from "./src/routes/foods/FoodItemRoute";
+import { restaurentRoute } from "./src/routes/restaurents/RestaurentRoute";
 import { userRoute } from "./src/routes/users/UserRoute";
-import { COMPANY_ID } from "./src/constants/CompanyConstants";
 
 export class Server {
   private app: express.Express;
@@ -31,6 +34,7 @@ export class Server {
 
   constructor() {
     this.app = express();
+    this.app.use(cors());
     this.app.use(httpContext.middleware);
     this.app.use(setCompany);
     this.app.use(morgan("combined", { stream }));
@@ -39,6 +43,8 @@ export class Server {
     this.app.use(cookieParser());
     this.app.use(passport.initialize());
     this.app.use(authMiddleware);
+    this.app.use(setCurrentUser);
+    this.app.use(cors());
   }
 
   setDbConnection = async () => {
@@ -62,6 +68,7 @@ export class Server {
             );
           }
         );
+        mongoose.set("runValidators", true);
         logger.info("Db connection established...");
       }
     } catch (error) {
@@ -81,6 +88,9 @@ export class Server {
   setRoutes = () => {
     this.app.use("/users", userRoute);
     this.app.use("/companies", companyRoute);
+    this.app.use("/restaurents", restaurentRoute);
+    this.app.use("/food-categories", foodCategoryRoute);
+    this.app.use("/food-items", foodItemRoute);
     this.app.use(function (
       req: express.Request,
       res: express.Response,
@@ -98,20 +108,23 @@ export class Server {
     opts.secretOrKey = process.env.JWT_SECRET;
     opts.passReqToCallback = true;
     passport.use(
-      new JwtStrategy(opts, async function (
-        request: Request,
-        payload: any,
-        done: VerifiedCallback
-      ) {
-        await httpContext.ns.runPromise(async () => {
-          const user = await User.findOne({
-            _id: payload._id,
-            company: httpContext.get(COMPANY_ID),
-          }).populate("roles");
-          if (user) return done(null, user.JSON());
-          return done(null, false);
-        });
-      })
+      new JwtStrategy(
+        opts,
+        async function (
+          request: Request,
+          payload: any,
+          done: VerifiedCallback
+        ) {
+          await httpContext.ns.runPromise(async () => {
+            const user = await User.findOne({
+              _id: payload._id,
+              company: httpContext.get(COMPANY_ID),
+            }).populate("roles");
+            if (user) return done(null, user.JSON());
+            return done(null, false);
+          });
+        }
+      )
     );
   };
 

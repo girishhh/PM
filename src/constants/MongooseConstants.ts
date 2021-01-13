@@ -1,5 +1,5 @@
 export const QUERY_METHODS = [
-  "count",
+  "countDocuments",
   "deleteMany",
   "deleteOne",
   "find",

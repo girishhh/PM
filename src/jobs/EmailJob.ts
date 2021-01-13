@@ -1,6 +1,5 @@
-import Queue from "bull";
-import UserMailer from "../mailers/UserMailer";
 import rootPath from "app-root-path";
+import Queue from "bull";
 
 class EmailJob {
   emailQueue: Queue.Queue<any>;

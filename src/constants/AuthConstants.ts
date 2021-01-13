@@ -4,6 +4,7 @@ export const PUBLIC_ROUTES = [
   "/users/sign-in",
   "/users/activate-account",
   "/users/sign-up",
+  "/users/resend-confirmation-instructions",
 ];
 
 export const SUPER_ADMIN_DOMAINS = ["super-admin"];

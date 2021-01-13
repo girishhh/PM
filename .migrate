@@ -1,9 +1,25 @@
 {
-  "lastRun": "1600068805341-addEmailUniqIndexToAdmins.ts",
+  "lastRun": "1610065269748-addNameUniqIndexFoodCategory.ts",
   "migrations": [
     {
-      "title": "1600068805341-addEmailUniqIndexToAdmins.ts",
-      "timestamp": 1604394447664
+      "title": "1600068805341-addEmailUniqIndexToUsers.ts",
+      "timestamp": 1610457078799
+    },
+    {
+      "title": "1606906525953-addNameSubdomainUniqIndexToCompanies.ts",
+      "timestamp": 1610457080463
+    },
+    {
+      "title": "1608797232963-addNameUniqIndexRestaurent.ts",
+      "timestamp": 1610457081248
+    },
+    {
+      "title": "1610065155510-addNameRestaurentUniqIndexFoodItems.ts",
+      "timestamp": 1610457081271
+    },
+    {
+      "title": "1610065269748-addNameUniqIndexFoodCategory.ts",
+      "timestamp": 1610457081288
     }
   ]
 }

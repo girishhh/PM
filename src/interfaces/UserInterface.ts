@@ -1,3 +1,4 @@
+import { Response } from "express";
 import mongoose from "mongoose";
 import { AddressInterface } from "./AddressInterface";
 import { CompanyInterface } from "./CompanyInterface";
@@ -18,4 +19,8 @@ interface UserInterface extends mongoose.Document {
   permissions: string[];
 }
 
-export { UserInterface };
+// interface UserStatics extends mongoose.Model<UserInterface> {
+//   throwIfAdminExistsForEmail(email: string, res: Response): void;
+// }
+
+export { UserInterface, UserStatics };
