@@ -21,7 +21,7 @@ class FoodItemRoute {
         const categories = await FoodItem.find()
           .skip(Number(formData.start))
           .limit(Number(formData.limit));
-        const totalCount = await FoodItem.countDocuments();
+        const totalCount = await FoodItem.countDocuments({}).exec();
         const respJson = { foodItems: categories, total: totalCount };
         res.status(200).json(respJson);
       }

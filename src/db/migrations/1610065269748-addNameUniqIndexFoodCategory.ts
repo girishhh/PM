@@ -7,12 +7,12 @@ server.setDbConnection();
 module.exports.up = async function (next: any) {
   await FoodCategory.collection.createIndex(
     { name: 1, company: 1 },
-    { name: "nameCompanyUniqFoodCategory", unique: true }
+    { name: "nameUniqFoodCategory", unique: true }
   );
   next();
 };
 
 module.exports.down = async function (next: any) {
-  await FoodCategory.collection.dropIndex("nameCompanyUniqFoodCategory");
+  await FoodCategory.collection.dropIndex("nameUniqFoodCategory");
   next();
 };

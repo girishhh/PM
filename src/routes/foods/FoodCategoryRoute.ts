@@ -21,8 +21,8 @@ class FoodCategoryRoute {
         const categories = await FoodCategory.find()
           .skip(Number(formData.start))
           .limit(Number(formData.limit));
-        const totalCount = await FoodCategory.countDocuments();
-        const respJson = { categoryList: categories, total: totalCount };
+        const totalCount = await FoodCategory.countDocuments({}).exec();
+        const respJson = { foodCategoryList: categories, total: totalCount };
         res.status(200).json(respJson);
       }
     );
@@ -53,6 +53,18 @@ class FoodCategoryRoute {
       }
     );
 
+    this.router.get(
+      "/:id",
+      async (req: Request, res: Response, next: NextFunction) => {
+        await httpContext.ns.runPromise(async () => {
+          const foodCategory = await FoodCategory.findById(req.params.id);
+          if (!foodCategory) return res.status(404).send();
+          const respJson = { foodCategoryDetails: foodCategory };
+          res.status(200).json(respJson);
+        });
+      }
+    );
+
     this.router.delete(
       "/:id",
       async (req: Request, res: Response, next: NextFunction) => {
@@ -61,7 +73,7 @@ class FoodCategoryRoute {
             _id: req.params.id,
           });
           if (!foodCategory) return res.status(404).send();
-          res.status(200).send();
+          res.status(204).send();
         });
       }
     );

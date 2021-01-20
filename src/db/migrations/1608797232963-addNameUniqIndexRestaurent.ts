@@ -6,7 +6,7 @@ server.setDbConnection();
 
 module.exports.up = async function (next: any) {
   await Restaurent.collection.createIndex(
-    { name: 1 },
+    { name: 1, company: 1 },
     { name: "nameRestaurents", unique: true }
   );
   next();

@@ -1,5 +1,6 @@
 import httpContext from "express-http-context";
 import mongoose from "mongoose";
+import { CommonConstants } from "../constants/CommonConstants";
 import {
   ADMIN_DOMAIN,
   COMPANY_ID,
@@ -12,7 +13,7 @@ export const attachCompanyToQuery = <T>(schema: mongoose.Schema) => {
   for (let i = 0; i < QUERY_METHODS.length; i++) {
     schema.pre(QUERY_METHODS[i], function () {
       const self: any = this as any;
-      if (!self.company) {
+      if (!self.company && !self._conditions?.company) {
         if (QUERY_METHODS[i] === "save") {
           self.company = httpContext.get(COMPANY_ID);
         } else {
@@ -32,10 +33,28 @@ export const attachAdminToCompanyQuery = <T>(
   for (let i = 0; i < QUERY_METHODS.length; i++) {
     schema.pre(QUERY_METHODS[i], function () {
       const subdomain = httpContext.get(SUB_DOMAIN);
-      if (subdomain === ADMIN_DOMAIN) {
+      const self: any = this as any;
+      if (
+        self[columnName] === CommonConstants.SKIP ||
+        self._conditions?.[columnName] === CommonConstants.SKIP
+      ) {
         if (QUERY_METHODS[i] === "save") {
-          const self: any = this as any;
-          if (!self[columnName]) self[columnName] = httpContext.get(USER_ID);
+          self[columnName] = undefined;
+        } else {
+          (this as mongoose.Query<T>).where({
+            [columnName]: undefined,
+          });
+        }
+        return;
+      }
+
+      if (
+        subdomain === ADMIN_DOMAIN &&
+        !self[columnName] &&
+        !self._conditions?.[columnName]
+      ) {
+        if (QUERY_METHODS[i] === "save") {
+          self[columnName] = httpContext.get(USER_ID);
         } else {
           (this as mongoose.Query<T>).where({
             [columnName]: httpContext.get(USER_ID),

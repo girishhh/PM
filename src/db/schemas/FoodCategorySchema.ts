@@ -10,4 +10,9 @@ const FoodCategorySchema = new schema({
 
 attachCompanyToQuery(FoodCategorySchema);
 
+FoodCategorySchema.pre("save", function () {
+  const self: any = this;
+  self.name = self.name.trim();
+});
+
 export { FoodCategorySchema };

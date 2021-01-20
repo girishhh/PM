@@ -3,23 +3,23 @@
   "migrations": [
     {
       "title": "1600068805341-addEmailUniqIndexToUsers.ts",
-      "timestamp": 1610457078799
+      "timestamp": 1610879695566
     },
     {
       "title": "1606906525953-addNameSubdomainUniqIndexToCompanies.ts",
-      "timestamp": 1610457080463
+      "timestamp": 1610879697613
     },
     {
       "title": "1608797232963-addNameUniqIndexRestaurent.ts",
-      "timestamp": 1610457081248
+      "timestamp": 1610879698727
     },
     {
       "title": "1610065155510-addNameRestaurentUniqIndexFoodItems.ts",
-      "timestamp": 1610457081271
+      "timestamp": 1610879698849
     },
     {
       "title": "1610065269748-addNameUniqIndexFoodCategory.ts",
-      "timestamp": 1610457081288
+      "timestamp": 1610879699759
     }
   ]
 }

@@ -57,7 +57,7 @@ class RestaurentRoute {
           const restaurents = await Restaurent.find()
             .skip(Number(formData.start))
             .limit(Number(formData.limit));
-          const totalCount = await Restaurent.countDocuments();
+          const totalCount = await Restaurent.countDocuments({}).exec();
           const respJson = { restaurentList: restaurents, total: totalCount };
           res.status(200).json(respJson);
         });
@@ -93,13 +93,13 @@ class RestaurentRoute {
       "/:id",
       async (req: Request, res: Response, next: NextFunction) => {
         await httpContext.ns.runPromise(async () => {
-          const restaurentFormData = params(req.body).only("name");
-          const addressFormData = params(req.body).only(
-            "address",
+          const restaurentFormData = params(req.body).only(
+            "name",
             "lat",
             "lng",
             "geo_location_description"
           );
+          const addressFormData = params(req.body).only("address");
           restaurentFormData.updated_by = httpContext.get(USER_ID);
           const restaurent = await Restaurent.findById(req.params.id);
           const session = await mongoose.startSession();

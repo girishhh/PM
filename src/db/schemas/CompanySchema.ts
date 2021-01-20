@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
+import { CommonConstants } from "../../constants/CommonConstants";
 import { attachAdminToCompanyQuery } from "../../helpers/MongooseHelper";
+import { Company } from "../models/CompanyModel";
 
 const schema = mongoose.Schema;
 
@@ -14,6 +16,15 @@ const CompanySchema = new schema({
   timeZone: { type: String, required: [true, "Timezone is required"] },
   admin: { type: schema.Types.ObjectId, ref: "User" },
 });
+
+CompanySchema.statics.getAdminCompany = async function () {
+  const company = await Company.findOne({
+    name: CommonConstants.ADMIN_SUBDOMAIN,
+    subdomain: CommonConstants.ADMIN_SUBDOMAIN,
+    admin: CommonConstants.SKIP,
+  });
+  return company;
+};
 
 attachAdminToCompanyQuery(CompanySchema, "admin");
 

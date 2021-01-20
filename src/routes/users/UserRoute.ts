@@ -5,6 +5,7 @@ import express, { NextFunction, Request, Response, Router } from "express";
 import "express-async-errors";
 import httpContext from "express-http-context";
 import jwt from "jsonwebtoken";
+import lodash from "lodash";
 import mongoose from "mongoose";
 // @ts-ignore
 import params from "params";
@@ -32,6 +33,49 @@ class UserRoute {
   }
 
   private createRoutes = () => {
+    this.router.get(
+      "/",
+      async (req: Request, res: Response, next: NextFunction) => {
+        await httpContext.ns.runPromise(async () => {
+          const formData = params(req.query).only(
+            "start",
+            "limit",
+            "conditions"
+          );
+          const queryCondition = await User.buildQueryConditions(
+            JSON.parse(formData.conditions)
+          );
+          const users = await User.find(queryCondition)
+            .skip(Number(formData.start))
+            .limit(Number(formData.limit));
+          const totalCount = await User.countDocuments();
+          const respJson = { userList: users, total: totalCount };
+          res.status(200).json(respJson);
+        });
+      }
+    );
+
+    this.router.put("/:id", async (req, res, next) => {
+      await httpContext.ns.runPromise(async () => {
+        const formData = params(req.body).only(
+          "firstName",
+          "lastName",
+          "city",
+          "roles",
+          "restaurents"
+        );
+        if (!lodash.isEmpty(formData.roles))
+          formData.roles = await User.getRoleIdsFromNames(formData.roles);
+        const user = await User.findOneAndUpdate(
+          { _id: req.params.id },
+          formData,
+          { new: true }
+        ).exec();
+        if (!user) res.status(404).send();
+        res.status(204).send();
+      });
+    });
+
     this.router.post("/", async (req, res, next) => {
       await httpContext.ns.runPromise(async () => {
         const userFormData = params(req.body).only(
@@ -41,11 +85,10 @@ class UserRoute {
           "roles",
           "email",
           "company",
-          "restaurent"
+          "restaurents"
         );
         if (ROLES_NEEDS_PASSWORD_MAIL.includes(userFormData.roles[0]))
           userFormData.token = crypto.randomBytes(20).toString("hex");
-        const addressFormData = params(req.body).only("addresses");
         const currentUser = req.user as UserInterface;
         if (
           allowed(
@@ -53,42 +96,33 @@ class UserRoute {
             getPermissionName("create", userFormData.roles[0])
           )
         ) {
-          let roleId = await Role.findOne({ name: ROLES.ADMIN });
-          const user = await User.findOne({
-            email: userFormData.email,
-            roles: [(roleId as unknown) as string],
-          });
-          if (user)
+          const adminExists = await User.checkAdminExistsWithEmail(
+            userFormData
+          );
+          if (adminExists)
             return res.status(422).json({ message: "Email should be unique." });
-          const session = await mongoose.startSession();
-          const roleName = userFormData.roles[0] as string;
-          roleId = await Role.findOne({ name: roleName });
-          const userObj = new User({ ...userFormData, roles: [roleId] });
-          const addressObj = new Address({
-            ...addressFormData[0],
-            modelName: "User",
-            modelId: userObj.id,
-          });
-          await session.withTransaction(async () => {
-            const address = await addressObj.save({ session });
-            if (address) {
-              userObj.set({ addresses: [address.id] });
-              const user = await userObj.save({ session });
-              if (user.token) {
-                const passwordLink = getCreatePasswordLink(
-                  `${req.protocol}://${req.headers.host}`,
-                  userFormData.token
-                );
-                const ss = user.JSON();
-                emailJob.emailQueue.add({
-                  mailType: "createPasswordMail",
-                  passwordLink,
-                  user: ss,
-                });
-              }
-              res.status(201).json(user);
-            }
-          });
+          const ownerAlreadyExistsForReaturent = await User.duplicateOwnerForRestaurent(
+            userFormData
+          );
+          if (ownerAlreadyExistsForReaturent)
+            return res
+              .status(422)
+              .json({ message: "Owner already exists for restaurent" });
+          const roleIds = await User.getRoleIdsFromNames(userFormData.roles);
+          const userObj = new User({ ...userFormData, roles: roleIds });
+          const user = await userObj.save();
+          if (user.token) {
+            const passwordLink = getCreatePasswordLink(
+              `${req.protocol}://${req.headers.host}`,
+              userFormData.token
+            );
+            emailJob.emailQueue.add({
+              mailType: "createPasswordMail",
+              passwordLink,
+              user: user.JSON(),
+            });
+          }
+          res.status(201).json(user);
         } else {
           res.status(401).send("UnAuthorized");
         }
