@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { KeyValue } from "./CommonInterface";
 import { CompanyInterface } from "./CompanyInterface";
 
 interface FoodCategoryInterface extends mongoose.Document {
@@ -6,4 +7,8 @@ interface FoodCategoryInterface extends mongoose.Document {
   company: CompanyInterface;
 }
 
-export { FoodCategoryInterface };
+interface FoodCategoryStatics extends mongoose.Model<FoodCategoryInterface> {
+  buildQueryConditions(conditions: KeyValue): Promise<KeyValue>;
+}
+
+export { FoodCategoryInterface, FoodCategoryStatics };

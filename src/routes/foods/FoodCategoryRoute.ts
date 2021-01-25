@@ -17,13 +17,26 @@ class FoodCategoryRoute {
     this.router.get(
       "/",
       async (req: Request, res: Response, next: NextFunction) => {
-        const formData = params(req.query).only("start", "limit");
-        const categories = await FoodCategory.find()
-          .skip(Number(formData.start))
-          .limit(Number(formData.limit));
-        const totalCount = await FoodCategory.countDocuments({}).exec();
-        const respJson = { foodCategoryList: categories, total: totalCount };
-        res.status(200).json(respJson);
+        await httpContext.ns.runPromise(async () => {
+          const formData = params(req.query).only(
+            "start",
+            "limit",
+            "conditions"
+          );
+          const queryCondition = formData.conditions
+            ? await FoodCategory.buildQueryConditions(
+                JSON.parse(formData.conditions)
+              )
+            : {};
+          const categories = await FoodCategory.find(queryCondition)
+            .skip(Number(formData.start))
+            .limit(Number(formData.limit))
+            .exec();
+
+          const totalCount = await FoodCategory.countDocuments({}).exec();
+          const respJson = { foodCategoryList: categories, total: totalCount };
+          res.status(200).json(respJson);
+        });
       }
     );
 

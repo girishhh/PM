@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { AddressInterface } from "./AddressInterface";
+import { KeyValue } from "./CommonInterface";
 
 interface RestaurentInterface extends mongoose.Document {
   name: string;
@@ -10,4 +11,8 @@ interface RestaurentInterface extends mongoose.Document {
   geo_location_description: string;
 }
 
-export { RestaurentInterface };
+interface RestaurentStatics extends mongoose.Model<RestaurentInterface> {
+  buildQueryConditions(conditions: KeyValue): Promise<KeyValue>;
+}
+
+export { RestaurentInterface, RestaurentStatics };

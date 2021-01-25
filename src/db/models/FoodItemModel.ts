@@ -1,7 +1,13 @@
 import mongoose from "mongoose";
-import { FoodItemInterface } from "../../interfaces/FoodItemInterface";
+import {
+  FoodItemInterface,
+  FoodItemStatics,
+} from "../../interfaces/FoodItemInterface";
 import { FoodItemSchema } from "../schemas/FoodItemSchema";
 
-const FoodItem = mongoose.model<FoodItemInterface>("FoodItem", FoodItemSchema);
+const FoodItem = mongoose.model<FoodItemInterface, FoodItemStatics>(
+  "FoodItem",
+  FoodItemSchema
+);
 
 export { FoodItem };

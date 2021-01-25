@@ -17,13 +17,24 @@ class FoodItemRoute {
     this.router.get(
       "/",
       async (req: Request, res: Response, next: NextFunction) => {
-        const formData = params(req.query).only("start", "limit");
-        const categories = await FoodItem.find()
-          .skip(Number(formData.start))
-          .limit(Number(formData.limit));
-        const totalCount = await FoodItem.countDocuments({}).exec();
-        const respJson = { foodItems: categories, total: totalCount };
-        res.status(200).json(respJson);
+        await httpContext.ns.runPromise(async () => {
+          const formData = params(req.query).only(
+            "start",
+            "limit",
+            "conditions"
+          );
+          const queryCondition = formData.conditions
+            ? await FoodItem.buildQueryConditions(
+                JSON.parse(formData.conditions)
+              )
+            : {};
+          const foodItems = await FoodItem.find(queryCondition)
+            .skip(Number(formData.start))
+            .limit(Number(formData.limit));
+          const totalCount = await FoodItem.countDocuments({}).exec();
+          const respJson = { foodItemList: foodItems, total: totalCount };
+          res.status(200).json(respJson);
+        });
       }
     );
 
@@ -58,6 +69,18 @@ class FoodItemRoute {
       }
     );
 
+    this.router.get(
+      "/:id",
+      async (req: Request, res: Response, next: NextFunction) => {
+        await httpContext.ns.runPromise(async () => {
+          const foodItem = await FoodItem.findById(req.params.id);
+          if (!foodItem) return res.status(404).send();
+          const respJson = { foodItemDetails: foodItem };
+          res.status(200).json(respJson);
+        });
+      }
+    );
+
     this.router.delete(
       "/:id",
       async (req: Request, res: Response, next: NextFunction) => {
@@ -66,7 +89,7 @@ class FoodItemRoute {
             _id: req.params.id,
           });
           if (!foodItem) return res.status(404).send();
-          res.status(200).send();
+          res.status(204).send();
         });
       }
     );

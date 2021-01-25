@@ -53,10 +53,20 @@ class RestaurentRoute {
       "/",
       async (req: Request, res: Response, next: NextFunction) => {
         await httpContext.ns.runPromise(async () => {
-          const formData = params(req.query).only("start", "limit");
-          const restaurents = await Restaurent.find()
+          const formData = params(req.query).only(
+            "start",
+            "limit",
+            "conditions"
+          );
+          const queryCondition = formData.conditions
+            ? await Restaurent.buildQueryConditions(
+                JSON.parse(formData.conditions)
+              )
+            : {};
+          const restaurents = await Restaurent.find(queryCondition)
             .skip(Number(formData.start))
-            .limit(Number(formData.limit));
+            .limit(Number(formData.limit))
+            .exec();
           const totalCount = await Restaurent.countDocuments({}).exec();
           const respJson = { restaurentList: restaurents, total: totalCount };
           res.status(200).json(respJson);

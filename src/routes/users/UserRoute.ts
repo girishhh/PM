@@ -42,9 +42,9 @@ class UserRoute {
             "limit",
             "conditions"
           );
-          const queryCondition = await User.buildQueryConditions(
-            JSON.parse(formData.conditions)
-          );
+          const queryCondition = formData.conditions
+            ? await User.buildQueryConditions(JSON.parse(formData.conditions))
+            : {};
           const users = await User.find(queryCondition)
             .skip(Number(formData.start))
             .limit(Number(formData.limit));
@@ -54,27 +54,6 @@ class UserRoute {
         });
       }
     );
-
-    this.router.put("/:id", async (req, res, next) => {
-      await httpContext.ns.runPromise(async () => {
-        const formData = params(req.body).only(
-          "firstName",
-          "lastName",
-          "city",
-          "roles",
-          "restaurents"
-        );
-        if (!lodash.isEmpty(formData.roles))
-          formData.roles = await User.getRoleIdsFromNames(formData.roles);
-        const user = await User.findOneAndUpdate(
-          { _id: req.params.id },
-          formData,
-          { new: true }
-        ).exec();
-        if (!user) res.status(404).send();
-        res.status(204).send();
-      });
-    });
 
     this.router.post("/", async (req, res, next) => {
       await httpContext.ns.runPromise(async () => {
@@ -157,6 +136,27 @@ class UserRoute {
         user?.set(updateAttributes);
         const updatedUser = await user?.save();
         res.status(200).send(updatedUser?.JSON());
+      });
+    });
+
+    this.router.put("/:id", async (req, res, next) => {
+      await httpContext.ns.runPromise(async () => {
+        const formData = params(req.body).only(
+          "firstName",
+          "lastName",
+          "city",
+          "roles",
+          "restaurents"
+        );
+        if (!lodash.isEmpty(formData.roles))
+          formData.roles = await User.getRoleIdsFromNames(formData.roles);
+        const user = await User.findOneAndUpdate(
+          { _id: req.params.id },
+          formData,
+          { new: true }
+        ).exec();
+        if (!user) res.status(404).send();
+        res.status(204).send();
       });
     });
 
