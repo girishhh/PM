@@ -1,5 +1,5 @@
 {
-  "lastRun": "1610065269748-addNameUniqIndexFoodCategory.ts",
+  "lastRun": "1613381956889-addNameUniqIndexMenu.ts",
   "migrations": [
     {
       "title": "1600068805341-addEmailUniqIndexToUsers.ts",
@@ -20,6 +20,14 @@
     {
       "title": "1610065269748-addNameUniqIndexFoodCategory.ts",
       "timestamp": 1611504516486
+    },
+    {
+      "title": "1613376275183-addNameUniqIndexMenuItems.ts",
+      "timestamp": 1613376371582
+    },
+    {
+      "title": "1613381956889-addNameUniqIndexMenu.ts",
+      "timestamp": 1613382171345
     }
   ]
 }

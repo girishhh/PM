@@ -67,7 +67,9 @@ class RestaurentRoute {
             .skip(Number(formData.start))
             .limit(Number(formData.limit))
             .exec();
-          const totalCount = await Restaurent.countDocuments({}).exec();
+          const totalCount = await Restaurent.countDocuments(
+            queryCondition
+          ).exec();
           const respJson = { restaurentList: restaurents, total: totalCount };
           res.status(200).json(respJson);
         });

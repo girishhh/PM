@@ -25,6 +25,8 @@ import { emailJob } from "./src/jobs/EmailJob";
 import { companyRoute } from "./src/routes/companies/CompanyRoute";
 import { foodCategoryRoute } from "./src/routes/foods/FoodCategoryRoute";
 import { foodItemRoute } from "./src/routes/foods/FoodItemRoute";
+import { menuItemRoute } from "./src/routes/menus/MenuItemRoute";
+import { menuRoute } from "./src/routes/menus/MenuRoute";
 import { restaurentRoute } from "./src/routes/restaurents/RestaurentRoute";
 import { userRoute } from "./src/routes/users/UserRoute";
 
@@ -91,6 +93,8 @@ export class Server {
     this.app.use("/restaurents", restaurentRoute);
     this.app.use("/food-categories", foodCategoryRoute);
     this.app.use("/food-items", foodItemRoute);
+    this.app.use("/menu-items", menuItemRoute);
+    this.app.use("/menus", menuRoute);
     this.app.use(function (
       req: express.Request,
       res: express.Response,
