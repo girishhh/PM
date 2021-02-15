@@ -6,6 +6,7 @@ const schema = mongoose.Schema;
 const MenuSchema = new schema({
   name: { type: String, required: [true, "Name is required"], unique: true },
   menuItems: [{ type: schema.Types.ObjectId, ref: "MenuItem", required: true }],
+  active: { type: Boolean, default: false },
   restaurent: {
     type: schema.Types.ObjectId,
     ref: "Restaurent",
