@@ -34,11 +34,20 @@ class MenuItemRoute {
       "/",
       async (req: Request, res: Response, next: NextFunction) => {
         await httpContext.ns.runPromise(async () => {
-          const formData = params(req.query).only("start", "limit");
-          const menuItems = await MenuItem.find()
+          const formData = params(req.query).only(
+            "start",
+            "limit",
+            "conditions"
+          );
+          const queryCondition = formData.conditions
+            ? await MenuItem.buildQueryConditions(
+                JSON.parse(formData.conditions)
+              )
+            : {};
+          const menuItems = await MenuItem.find(queryCondition)
             .skip(Number(formData.start))
             .limit(Number(formData.limit));
-          const totalCount = await MenuItem.countDocuments();
+          const totalCount = await MenuItem.countDocuments({}).exec();
           const respJson = { menuItemList: menuItems, total: totalCount };
           res.status(200).json(respJson);
         });
