@@ -14,6 +14,7 @@ const RestaurentSchema = new schema({
     type: String,
     required: [true, "Address text is required"],
   },
+  activeMenu: { type: schema.Types.ObjectId, ref: "Menu" },
 });
 
 RestaurentSchema.statics.buildQueryConditions = async function (

@@ -5,6 +5,7 @@ import httpContext from "express-http-context";
 import params from "params";
 import { MenuItem } from "../../db/models/MenuItemModel";
 import { Menu } from "../../db/models/MenuModel";
+import { Restaurent } from "../../db/models/RestaurentModel";
 
 class MenuRoute {
   router: Router;
@@ -35,11 +36,18 @@ class MenuRoute {
       "/",
       async (req: Request, res: Response, next: NextFunction) => {
         await httpContext.ns.runPromise(async () => {
-          const formData = params(req.query).only("start", "limit");
-          const menus = await Menu.find()
+          const formData = params(req.query).only(
+            "start",
+            "limit",
+            "conditions"
+          );
+          const queryCondition = formData.conditions
+            ? await Menu.buildQueryConditions(JSON.parse(formData.conditions))
+            : {};
+          const menus = await Menu.find(queryCondition)
             .skip(Number(formData.start))
             .limit(Number(formData.limit));
-          const totalCount = await MenuItem.countDocuments();
+          const totalCount = await Menu.countDocuments({}).exec();
           const respJson = { menuList: menus, total: totalCount };
           res.status(200).json(respJson);
         });
@@ -84,6 +92,22 @@ class MenuRoute {
             { new: true }
           ).exec();
           if (!menu) res.status(404).send();
+          res.status(204).send();
+        });
+      }
+    );
+
+    this.router.put(
+      "/:id/activate",
+      async (req: Request, res: Response, next: NextFunction) => {
+        await httpContext.ns.runPromise(async () => {
+          const formData = params(req.body).only("restaurentId");
+          const restaurent = await Restaurent.findOneAndUpdate(
+            { _id: formData.restaurentId },
+            { activeMenu: req.params.id },
+            { new: true }
+          ).exec();
+          if (!restaurent) res.status(404).send();
           res.status(204).send();
         });
       }
