@@ -1,4 +1,5 @@
 import express, { NextFunction, Request, Response, Router } from "express";
+import mongoose from "mongoose";
 import "express-async-errors";
 import httpContext from "express-http-context";
 // @ts-ignore
@@ -26,8 +27,25 @@ class MenuRoute {
             "restaurent"
           );
           const menuObj = new Menu(formData);
-          const menu = await menuObj.save();
-          if (menu) res.status(201).json(menu);
+          const session = await mongoose.startSession();
+          await session.withTransaction(async () => {
+            const menuItems = formData.menuItems;
+            const menu = await menuObj.save({ session });
+            for (let i = 0; i < menuItems.length; i++) {
+              const menuItem = await MenuItem.findOneAndUpdate(
+                { _id: menuItems[i] },
+                { $push: { menus: menu.id } },
+                { new: true, session }
+              ).exec();
+              if (!menuItem) {
+                await session.abortTransaction();
+                return res
+                  .status(422)
+                  .json({ message: "Unable to save menu item" });
+              }
+            }
+            res.status(201).json(menu);
+          });
         });
       }
     );

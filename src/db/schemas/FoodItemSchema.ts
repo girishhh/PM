@@ -35,10 +35,12 @@ attachCompanyToQuery(FoodItemSchema);
 
 FoodItemSchema.pre("find", function () {
   this.populate("categories");
+  this.populate("restaurent");
 });
 
 FoodItemSchema.pre("findOne", function () {
   this.populate("categories");
+  this.populate("restaurent");
 });
 
 export { FoodItemSchema };

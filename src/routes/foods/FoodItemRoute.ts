@@ -4,6 +4,10 @@ import httpContext from "express-http-context";
 import params from "params";
 import "express-async-errors";
 import { FoodItem } from "../../db/models/FoodItemModel";
+import { Restaurent } from "../../db/models/RestaurentModel";
+import { COMPANY_ID } from "../../constants/CompanyConstants";
+import { MenuItem } from "../../db/models/MenuItemModel";
+import lodash from "lodash";
 
 class FoodItemRoute {
   router: Router;
@@ -34,6 +38,55 @@ class FoodItemRoute {
           const totalCount = await FoodItem.countDocuments({}).exec();
           const respJson = { foodItemList: foodItems, total: totalCount };
           res.status(200).json(respJson);
+        });
+      }
+    );
+
+    this.router.get(
+      "/dashboardSearch",
+      async (req: Request, res: Response, next: NextFunction) => {
+        await httpContext.ns.runPromise(async () => {
+          const formData = params(req.query).only(
+            "start",
+            "limit",
+            "searchText"
+          );
+          const companyRestaurents = await Restaurent.find({
+            company: httpContext.get(COMPANY_ID),
+          })
+            .where("activeMenu")
+            .ne(null)
+            .exec();
+
+          const activeMenuIds = companyRestaurents.map((restaurent) => {
+            if (restaurent.activeMenu) return restaurent.activeMenu;
+          }) as string[];
+
+          const companyActiveMenus = await MenuItem.find({
+            menus: { $in: activeMenuIds },
+          }).exec();
+
+          let foodCategoryIds: string[] = [];
+          companyActiveMenus.map((menu) => {
+            const catIds = menu.categories.map((cat) => cat._id);
+            foodCategoryIds = foodCategoryIds.concat(catIds);
+          });
+
+          const foodItems = await FoodItem.find({
+            $and: [
+              { name: { $regex: new RegExp(formData.searchText, "i") } },
+              { categories: { $in: foodCategoryIds } },
+            ],
+          }).exec();
+
+          const foodItemRestaurents = foodItems.map((item) => item.restaurent);
+          const queryConditions = await Restaurent.buildQueryConditions({
+            name: { contains: formData.searchText },
+          });
+          const restaurents = await Restaurent.find(queryConditions).exec();
+          const allRestaurents = foodItemRestaurents.concat(restaurents);
+          const finalRestaurents = lodash.uniqBy(allRestaurents, "_id");
+          res.status(200).json({ restaurents: finalRestaurents });
         });
       }
     );

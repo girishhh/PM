@@ -8,7 +8,7 @@ interface FoodItemInterface extends mongoose.Document {
   _id: string;
   name: string;
   type: string;
-  categories: FoodCategoryInterface;
+  categories: FoodCategoryInterface | string[];
   restaurent: RestaurentInterface;
   company: CompanyInterface;
 }

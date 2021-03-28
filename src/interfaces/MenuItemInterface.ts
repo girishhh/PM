@@ -7,7 +7,7 @@ import { RestaurentInterface } from "./RestaurentInterface";
 
 export interface MenuItemInterface extends mongoose.Document {
   name: string;
-  menus: MenuInterface[];
+  menus: MenuInterface[] | string[];
   categories: FoodCategoryInterface[];
   restaurent: RestaurentInterface;
   company: CompanyInterface;

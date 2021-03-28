@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { AddressInterface } from "./AddressInterface";
 import { KeyValue } from "./CommonInterface";
+import { MenuItemInterface } from "./MenuItemInterface";
 
 interface RestaurentInterface extends mongoose.Document {
   name: string;
@@ -9,6 +10,7 @@ interface RestaurentInterface extends mongoose.Document {
   lat: number;
   lng: number;
   geo_location_description: string;
+  activeMenu: MenuItemInterface | string;
 }
 
 interface RestaurentStatics extends mongoose.Model<RestaurentInterface> {
