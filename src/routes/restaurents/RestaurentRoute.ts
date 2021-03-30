@@ -80,7 +80,9 @@ class RestaurentRoute {
       "/:id",
       async (req: Request, res: Response, next: NextFunction) => {
         await httpContext.ns.runPromise(async () => {
-          const restaurent = await Restaurent.findById(req.params.id);
+          const restaurent = await Restaurent.findById(req.params.id).populate(
+            "activeMenu"
+          );          
           if (!restaurent) return res.status(404).send();
           const respJson = { restaurentDetails: restaurent };
           res.status(200).json(respJson);

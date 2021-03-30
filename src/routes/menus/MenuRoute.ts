@@ -59,14 +59,22 @@ class MenuRoute {
             "limit",
             "conditions"
           );
+          const formConditions = JSON.parse(formData.conditions);
           const queryCondition = formData.conditions
-            ? await Menu.buildQueryConditions(JSON.parse(formData.conditions))
+            ? await Menu.buildQueryConditions(formConditions)
             : {};
           const menus = await Menu.find(queryCondition)
             .skip(Number(formData.start))
             .limit(Number(formData.limit));
           const totalCount = await Menu.countDocuments({}).exec();
-          const respJson = { menuList: menus, total: totalCount };
+          const restaurentMenuCount = await Menu.countDocuments({
+            restaurent: formConditions.restaurent.$eq,
+          }).exec();
+          const respJson = {
+            menuList: menus,
+            total: totalCount,
+            restaurentMenuCount,
+          };
           res.status(200).json(respJson);
         });
       }

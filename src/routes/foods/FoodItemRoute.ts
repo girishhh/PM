@@ -8,6 +8,7 @@ import { Restaurent } from "../../db/models/RestaurentModel";
 import { COMPANY_ID } from "../../constants/CompanyConstants";
 import { MenuItem } from "../../db/models/MenuItemModel";
 import lodash from "lodash";
+import { MenuInterface } from "../../interfaces/MenuInterface";
 
 class FoodItemRoute {
   router: Router;
@@ -56,20 +57,17 @@ class FoodItemRoute {
           })
             .where("activeMenu")
             .ne(null)
+            .populate("activeMenu")
             .exec();
 
-          const activeMenuIds = companyRestaurents.map((restaurent) => {
-            if (restaurent.activeMenu) return restaurent.activeMenu;
-          }) as string[];
-
-          const companyActiveMenus = await MenuItem.find({
-            menus: { $in: activeMenuIds },
-          }).exec();
-
           let foodCategoryIds: string[] = [];
-          companyActiveMenus.map((menu) => {
-            const catIds = menu.categories.map((cat) => cat._id);
-            foodCategoryIds = foodCategoryIds.concat(catIds);
+          companyRestaurents.map((restaurent) => {
+            (restaurent.activeMenu as MenuInterface).menuItems.map(
+              (menuItem) =>
+                (foodCategoryIds = foodCategoryIds.concat(
+                  menuItem.categories.map((cat) => cat._id)
+                ))
+            );
           });
 
           const foodItems = await FoodItem.find({
