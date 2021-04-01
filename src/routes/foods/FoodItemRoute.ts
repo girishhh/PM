@@ -28,16 +28,22 @@ class FoodItemRoute {
             "limit",
             "conditions"
           );
+          const formConditions = JSON.parse(formData.conditions);
           const queryCondition = formData.conditions
-            ? await FoodItem.buildQueryConditions(
-                JSON.parse(formData.conditions)
-              )
+            ? await FoodItem.buildQueryConditions(formConditions)
             : {};
           const foodItems = await FoodItem.find(queryCondition)
             .skip(Number(formData.start))
             .limit(Number(formData.limit));
           const totalCount = await FoodItem.countDocuments({}).exec();
-          const respJson = { foodItemList: foodItems, total: totalCount };
+          const filteredDocumentCount = await FoodItem.countDocuments(
+            queryCondition
+          ).exec();
+          const respJson = {
+            foodItemList: foodItems,
+            total: totalCount,
+            filteredDocumentCount,
+          };
           res.status(200).json(respJson);
         });
       }
