@@ -1,5 +1,5 @@
 {
-  "lastRun": "1613381956889-addNameUniqIndexMenu.ts",
+  "lastRun": "1618067940914-addFoodItemCartUniqIndexCartItems.ts",
   "migrations": [
     {
       "title": "1600068805341-addEmailUniqIndexToUsers.ts",
@@ -28,6 +28,10 @@
     {
       "title": "1613381956889-addNameUniqIndexMenu.ts",
       "timestamp": 1613382171345
+    },
+    {
+      "title": "1618067940914-addFoodItemCartUniqIndexCartItems.ts",
+      "timestamp": 1618068175067
     }
   ]
 }

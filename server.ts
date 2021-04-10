@@ -22,6 +22,7 @@ import { authMiddleware } from "./src/helpers/AuthHelper";
 import { setCompany, setCurrentUser } from "./src/helpers/StorageHelper";
 import { ResponseError } from "./src/interfaces/CommonInterface";
 import { emailJob } from "./src/jobs/EmailJob";
+import { cartItemRoute } from "./src/routes/cart-items/CartItemRoute";
 import { companyRoute } from "./src/routes/companies/CompanyRoute";
 import { foodCategoryRoute } from "./src/routes/foods/FoodCategoryRoute";
 import { foodItemRoute } from "./src/routes/foods/FoodItemRoute";
@@ -95,6 +96,7 @@ export class Server {
     this.app.use("/food-items", foodItemRoute);
     this.app.use("/menu-items", menuItemRoute);
     this.app.use("/menus", menuRoute);
+    this.app.use("/cart-items", cartItemRoute);
     this.app.use(function (
       req: express.Request,
       res: express.Response,
