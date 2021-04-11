@@ -1,14 +1,13 @@
 import express, { NextFunction, Request, Response, Router } from "express";
 import "express-async-errors";
 import httpContext from "express-http-context";
-import mongoose from "mongoose";
 import { isEmpty } from "lodash";
+import mongoose from "mongoose";
 // @ts-ignore
 import params from "params";
 import { USER_ID } from "../../constants/UserConstants";
 import { CartItem } from "../../db/models/CartItemModel";
 import { Cart } from "../../db/models/CartModel";
-import { UserInterface } from "../../interfaces/UserInterface";
 
 class CartItemRoute {
   router: Router;
@@ -95,6 +94,44 @@ class CartItemRoute {
             } else {
               await session.abortTransaction();
               res.status(422).json({ message: "Unable to update item." });
+            }
+          });
+        });
+      }
+    );
+
+    this.router.delete(
+      "/:id",
+      async (req: Request, res: Response, next: NextFunction) => {
+        await httpContext.ns.runPromise(async () => {
+          const session = await mongoose.startSession();
+          await session.withTransaction(async () => {
+            const cartItem = await CartItem.findOneAndDelete(
+              {
+                _id: req.params.id,
+              },
+              { session }
+            );
+            if (!cartItem) {
+              res.status(404).send();
+              return;
+            }
+            const cartItems = await CartItem.find({
+              cart: cartItem.cart,
+            }).session(session);
+            if (isEmpty(cartItems)) {
+              const cart = await Cart.findOneAndDelete(
+                { _id: cartItem.cart },
+                { session }
+              );
+              if (cart) {
+                res.status(204).send();
+              } else {
+                res.status(422).json({ message: "Unable to delete item." });
+                await session.abortTransaction();
+              }
+            } else {
+              res.status(204).send();
             }
           });
         });
