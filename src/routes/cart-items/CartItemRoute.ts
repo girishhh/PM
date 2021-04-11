@@ -25,40 +25,66 @@ class CartItemRoute {
           const formData = params(req.body).only(
             "price",
             "quantity",
-            "foodItem"
+            "foodItem",
+            "restaurent"
           );
           const userId = httpContext.get(USER_ID);
           const cart = await Cart.findOne({ customer: userId });
+          if (
+            !isEmpty(cart) &&
+            cart?.restaurent.toString() !== formData.restaurent
+          ) {
+            return res.status(422).json({
+              message: "Cart already exist for other restaurent",
+              code: "CART_EXISTS_FOR_OTHER_RESTAURENT",
+            });
+          }
+          CartItem.saveCartItem(formData, res, userId, cart);
+        });
+      }
+    );
+
+    this.router.post(
+      "/refreshCart",
+      async (req: Request, res: Response, next: NextFunction) => {
+        await httpContext.ns.runPromise(async () => {
+          const formData = params(req.body).only(
+            "price",
+            "quantity",
+            "foodItem",
+            "restaurent"
+          );
+          const userId = httpContext.get(USER_ID);
           const session = await mongoose.startSession();
           await session.withTransaction(async () => {
-            if (!isEmpty(cart)) {
-              const cartItemObj = new CartItem({ ...formData, cart: cart?.id });
-              const cartItem = await cartItemObj.save({ session });
-              const updatedCart = await Cart.findByIdAndUpdate(
-                cartItem.cart,
-                {
-                  $inc: { subTotal: cartItem.price },
-                },
-                { new: true, session }
+            const cart = await Cart.findOneAndDelete(
+              { customer: userId },
+              { session }
+            );
+            if (cart) {
+              const resp = await CartItem.deleteMany(
+                { cart: cart.id },
+                { session }
               );
-              if (updatedCart) {
-                res.status(201).send();
+              if (resp.ok) {
+                const cartObj = new Cart({
+                  subTotal: formData.price,
+                  customer: userId,
+                  restaurent: formData.restaurent,
+                });
+                await cartObj.save({ session });
+                const cartItemObj = new CartItem({
+                  ...formData,
+                  cart: cartObj.id,
+                });
+                const cartItem = await cartItemObj.save({ session });
+                if (cartItem) res.status(201).send();
               } else {
                 await session.abortTransaction();
-                res.status(422).json({ message: "Unable to save item" });
+                res.status(422).json({ message: "Unable to refresh cart." });
               }
             } else {
-              const cartObj = new Cart({
-                subTotal: formData.price,
-                customer: userId,
-              });
-              await cartObj.save({ session });
-              const cartItemObj = new CartItem({
-                ...formData,
-                cart: cartObj.id,
-              });
-              const cartItem = await cartItemObj.save({ session });
-              if (cartItem) res.status(201).send();
+              res.status(404).send();
             }
           });
         });

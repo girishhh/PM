@@ -1,3 +1,4 @@
+import { Response } from "express";
 import mongoose from "mongoose";
 import { CartInterface } from "./CartInterface";
 import { CompanyInterface } from "./CompanyInterface";
@@ -11,4 +12,13 @@ interface CartItemInterface extends mongoose.Document {
   company: CompanyInterface | string;
 }
 
-export { CartItemInterface };
+interface CartItemStatics extends mongoose.Model<CartItemInterface> {
+  saveCartItem(
+    formData: any,
+    res: Response,
+    userId: string,
+    cart: CartInterface | null
+  ): Promise<void>;
+}
+
+export { CartItemInterface, CartItemStatics };

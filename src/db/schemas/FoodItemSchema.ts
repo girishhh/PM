@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import { attachCompanyToQuery } from "../../helpers/MongooseHelper";
 import { KeyValue } from "../../interfaces/CommonInterface";
+import { FoodItemInterface } from "../../interfaces/FoodItemInterface";
+import { CartItem } from "../models/CartItemModel";
 
 const schema = mongoose.Schema;
 
