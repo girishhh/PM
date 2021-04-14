@@ -19,7 +19,11 @@ import { logger, stream } from "./src/config/LoggerConfig";
 import { COMPANY_ID } from "./src/constants/CompanyConstants";
 import { User } from "./src/db/models/UserModel";
 import { authMiddleware } from "./src/helpers/AuthHelper";
-import { setCompany, setCurrentUser } from "./src/helpers/StorageHelper";
+import {
+  setCart,
+  setCompany,
+  setCurrentUser,
+} from "./src/helpers/StorageHelper";
 import { ResponseError } from "./src/interfaces/CommonInterface";
 import { emailJob } from "./src/jobs/EmailJob";
 import { cartItemRoute } from "./src/routes/cart-items/CartItemRoute";
@@ -93,7 +97,7 @@ export class Server {
     this.app.use("/companies", companyRoute);
     this.app.use("/restaurents", restaurentRoute);
     this.app.use("/food-categories", foodCategoryRoute);
-    this.app.use("/food-items", foodItemRoute);
+    this.app.use("/food-items", setCart, foodItemRoute);
     this.app.use("/menu-items", menuItemRoute);
     this.app.use("/menus", menuRoute);
     this.app.use("/cart-items", cartItemRoute);
