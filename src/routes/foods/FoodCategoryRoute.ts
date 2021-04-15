@@ -4,6 +4,7 @@ import httpContext from "express-http-context";
 import params from "params";
 import "express-async-errors";
 import { FoodCategory } from "../../db/models/FoodCategoryModel";
+import { buildQueryConditions } from "../../helpers/MongooseHelper";
 
 class FoodCategoryRoute {
   router: Router;
@@ -24,9 +25,7 @@ class FoodCategoryRoute {
             "conditions"
           );
           const queryCondition = formData.conditions
-            ? await FoodCategory.buildQueryConditions(
-                JSON.parse(formData.conditions)
-              )
+            ? buildQueryConditions(JSON.parse(formData.conditions))
             : {};
           const categories = await FoodCategory.find(queryCondition)
             .skip(Number(formData.start))

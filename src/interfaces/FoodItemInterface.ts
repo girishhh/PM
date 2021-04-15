@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { CartItemInterface } from "./CartItemInterface";
 import { KeyValue } from "./CommonInterface";
 import { CompanyInterface } from "./CompanyInterface";
 import { FoodCategoryInterface } from "./FoodCategoryInterface";
@@ -11,6 +12,7 @@ interface FoodItemInterface extends mongoose.Document {
   categories: FoodCategoryInterface | string[];
   restaurent: RestaurentInterface;
   company: CompanyInterface;
+  cartItem: CartItemInterface;
 }
 
 interface FoodItemStatics extends mongoose.Model<FoodItemInterface> {

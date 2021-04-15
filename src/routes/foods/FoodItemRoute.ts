@@ -1,13 +1,13 @@
-import express, { Router, NextFunction, Request, Response } from "express";
+import express, { NextFunction, Request, Response, Router } from "express";
+import "express-async-errors";
 import httpContext from "express-http-context";
+import lodash from "lodash";
 // @ts-ignore
 import params from "params";
-import "express-async-errors";
+import { COMPANY_ID } from "../../constants/CompanyConstants";
 import { FoodItem } from "../../db/models/FoodItemModel";
 import { Restaurent } from "../../db/models/RestaurentModel";
-import { COMPANY_ID } from "../../constants/CompanyConstants";
-import { MenuItem } from "../../db/models/MenuItemModel";
-import lodash from "lodash";
+import { buildQueryConditions } from "../../helpers/MongooseHelper";
 import { MenuInterface } from "../../interfaces/MenuInterface";
 
 class FoodItemRoute {
@@ -30,7 +30,7 @@ class FoodItemRoute {
           );
           const formConditions = JSON.parse(formData.conditions);
           const queryCondition = formData.conditions
-            ? await FoodItem.buildQueryConditions(formConditions)
+            ? buildQueryConditions(formConditions)
             : {};
           const foodItems = await FoodItem.find(queryCondition)
             .skip(Number(formData.start))
@@ -84,7 +84,7 @@ class FoodItemRoute {
           }).exec();
 
           const foodItemRestaurents = foodItems.map((item) => item.restaurent);
-          const queryConditions = await Restaurent.buildQueryConditions({
+          const queryConditions = buildQueryConditions({
             name: { contains: formData.searchText },
           });
           const restaurents = await Restaurent.find(queryConditions).exec();

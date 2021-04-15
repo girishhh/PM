@@ -15,25 +15,6 @@ const MenuSchema = new schema({
   company: { type: schema.Types.ObjectId, ref: "Company" },
 });
 
-MenuSchema.statics.buildQueryConditions = async function (
-  conditions: KeyValue
-): Promise<KeyValue> {
-  for (let key in conditions) {
-    let opearators = conditions[key];
-    for (let opKey in opearators) {
-      if (opKey === "contains") {
-        opearators["$regex"] = new RegExp(opearators[opKey], "i");
-        delete opearators[opKey];
-        continue;
-      }
-      opearators[`$${opKey}`] = opearators[opKey];
-      delete opearators[opKey];
-    }
-    conditions[key] = opearators;
-  }
-  return conditions;
-};
-
 attachCompanyToQuery(MenuSchema);
 
 MenuSchema.pre("find", function () {

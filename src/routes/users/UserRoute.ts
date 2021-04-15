@@ -12,8 +12,10 @@ import params from "params";
 import {
   ROLES,
   ROLES_NEEDS_PASSWORD_MAIL,
+  USER_ID,
 } from "../../constants/UserConstants";
 import { Address } from "../../db/models/AddressModel";
+import { Cart } from "../../db/models/CartModel";
 import { Role } from "../../db/models/RoleModel";
 import { User } from "../../db/models/UserModel";
 import {
@@ -159,6 +161,19 @@ class UserRoute {
         res.status(204).send();
       });
     });
+
+    this.router.get(
+      "/cartDetails",
+      async (req: Request, res: Response, next: NextFunction) => {
+        await httpContext.ns.runPromise(async () => {
+          const cart = await Cart.findOne({
+            customer: httpContext.get(USER_ID),
+          });
+          const respJson = { cartDetails: cart };
+          res.status(200).json(respJson);
+        });
+      }
+    );
 
     this.router.post(
       "/sign-in",

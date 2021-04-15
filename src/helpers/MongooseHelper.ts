@@ -8,6 +8,7 @@ import {
 } from "../constants/CompanyConstants";
 import { QUERY_METHODS } from "../constants/MongooseConstants";
 import { USER_ID } from "../constants/UserConstants";
+import { KeyValue } from "../interfaces/CommonInterface";
 
 export const attachCompanyToQuery = <T>(schema: mongoose.Schema) => {
   for (let i = 0; i < QUERY_METHODS.length; i++) {
@@ -63,4 +64,21 @@ export const attachAdminToCompanyQuery = <T>(
       }
     });
   }
+};
+
+export const buildQueryConditions = function (conditions: KeyValue): KeyValue {
+  for (let key in conditions) {
+    let opearators = conditions[key];
+    for (let opKey in opearators) {
+      if (opKey === "contains") {
+        opearators["$regex"] = new RegExp(opearators[opKey], "i");
+        delete opearators[opKey];
+        continue;
+      }
+      opearators[`$${opKey}`] = opearators[opKey];
+      delete opearators[opKey];
+    }
+    conditions[key] = opearators;
+  }
+  return conditions;
 };

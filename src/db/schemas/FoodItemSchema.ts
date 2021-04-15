@@ -1,10 +1,7 @@
-import mongoose from "mongoose";
-import { attachCompanyToQuery } from "../../helpers/MongooseHelper";
-import { KeyValue } from "../../interfaces/CommonInterface";
 import httpContext from "express-http-context";
-import { FoodItemInterface } from "../../interfaces/FoodItemInterface";
-import { CartItem } from "../models/CartItemModel";
+import mongoose from "mongoose";
 import { CART_ID } from "../../constants/CompanyConstants";
+import { attachCompanyToQuery } from "../../helpers/MongooseHelper";
 
 const schema = mongoose.Schema;
 
@@ -18,25 +15,6 @@ const FoodItemSchema = new schema(
   },
   { toObject: { virtuals: true }, toJSON: { virtuals: true } }
 );
-
-FoodItemSchema.statics.buildQueryConditions = async function (
-  conditions: KeyValue
-): Promise<KeyValue> {
-  for (let key in conditions) {
-    let opearators = conditions[key];
-    for (let opKey in opearators) {
-      if (opKey === "contains") {
-        opearators["$regex"] = new RegExp(opearators[opKey], "i");
-        delete opearators[opKey];
-        continue;
-      }
-      opearators[`$${opKey}`] = opearators[opKey];
-      delete opearators[opKey];
-    }
-    conditions[key] = opearators;
-  }
-  return conditions;
-};
 
 attachCompanyToQuery(FoodItemSchema);
 

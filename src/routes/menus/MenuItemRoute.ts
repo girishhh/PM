@@ -4,6 +4,7 @@ import httpContext from "express-http-context";
 // @ts-ignore
 import params from "params";
 import { MenuItem } from "../../db/models/MenuItemModel";
+import { buildQueryConditions } from "../../helpers/MongooseHelper";
 
 class MenuItemRoute {
   router: Router;
@@ -41,7 +42,7 @@ class MenuItemRoute {
           );
           const formDataConditions = JSON.parse(formData.conditions);
           const queryCondition = formData.conditions
-            ? await MenuItem.buildQueryConditions(formDataConditions)
+            ? buildQueryConditions(formDataConditions)
             : {};
           const menuItems = await MenuItem.find(queryCondition)
             .skip(Number(formData.start))

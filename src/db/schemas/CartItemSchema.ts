@@ -35,7 +35,7 @@ CartItemSchema.statics.saveCartItem = async function (
             $inc: { subTotal: cartItem.price },
           },
           { new: true, session }
-        );
+        ).exec();
         if (updatedCart) {
           res.status(201).send();
         } else {
@@ -61,6 +61,14 @@ CartItemSchema.statics.saveCartItem = async function (
     }
   });
 };
+
+CartItemSchema.pre("find", function () {
+  this.populate("foodItem");
+});
+
+CartItemSchema.pre("findOne", function () {
+  this.populate("foodItem");
+});
 
 attachCompanyToQuery(CartItemSchema);
 

@@ -9,25 +9,6 @@ const FoodCategorySchema = new schema({
   company: { type: schema.Types.ObjectId, ref: "Company" },
 });
 
-FoodCategorySchema.statics.buildQueryConditions = async function (
-  conditions: KeyValue
-): Promise<KeyValue> {
-  for (let key in conditions) {
-    let opearators = conditions[key];
-    for (let opKey in opearators) {
-      if (opKey === "contains") {
-        opearators["$regex"] = new RegExp(opearators[opKey], "i");
-        delete opearators[opKey];
-        continue;
-      }
-      opearators[`$${opKey}`] = opearators[opKey];
-      delete opearators[opKey];
-    }
-    conditions[key] = opearators;
-  }
-  return conditions;
-};
-
 attachCompanyToQuery(FoodCategorySchema);
 
 FoodCategorySchema.pre("save", function () {

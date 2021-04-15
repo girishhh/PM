@@ -7,6 +7,7 @@ import params from "params";
 import { MenuItem } from "../../db/models/MenuItemModel";
 import { Menu } from "../../db/models/MenuModel";
 import { Restaurent } from "../../db/models/RestaurentModel";
+import { buildQueryConditions } from "../../helpers/MongooseHelper";
 
 class MenuRoute {
   router: Router;
@@ -61,7 +62,7 @@ class MenuRoute {
           );
           const formConditions = JSON.parse(formData.conditions);
           const queryCondition = formData.conditions
-            ? await Menu.buildQueryConditions(formConditions)
+            ? buildQueryConditions(formConditions)
             : {};
           const menus = await Menu.find(queryCondition)
             .skip(Number(formData.start))

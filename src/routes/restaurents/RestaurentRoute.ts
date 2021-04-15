@@ -7,6 +7,7 @@ import "express-async-errors";
 import { USER_ID } from "../../constants/UserConstants";
 import { Restaurent } from "../../db/models/RestaurentModel";
 import { Address } from "../../db/models/AddressModel";
+import { buildQueryConditions } from "../../helpers/MongooseHelper";
 
 class RestaurentRoute {
   router: Router;
@@ -59,9 +60,7 @@ class RestaurentRoute {
             "conditions"
           );
           const queryCondition = formData.conditions
-            ? await Restaurent.buildQueryConditions(
-                JSON.parse(formData.conditions)
-              )
+            ? buildQueryConditions(JSON.parse(formData.conditions))
             : {};
           const restaurents = await Restaurent.find(queryCondition)
             .skip(Number(formData.start))
@@ -82,7 +81,7 @@ class RestaurentRoute {
         await httpContext.ns.runPromise(async () => {
           const restaurent = await Restaurent.findById(req.params.id).populate(
             "activeMenu"
-          );          
+          );
           if (!restaurent) return res.status(404).send();
           const respJson = { restaurentDetails: restaurent };
           res.status(200).json(respJson);
