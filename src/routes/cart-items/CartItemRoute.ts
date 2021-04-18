@@ -102,7 +102,7 @@ class CartItemRoute {
               req.params.id,
               formData,
               { new: true, session }
-            );
+            ).exec();
             if (cartItem) {
               const cart = await Cart.findByIdAndUpdate(
                 cartItem.cart,
@@ -110,9 +110,9 @@ class CartItemRoute {
                   $inc: { subTotal: cartItem.price },
                 },
                 { new: true, session }
-              );
+              ).exec();
               if (cart) {
-                res.status(200).json(cart);
+                res.status(200).send();
               } else {
                 await session.abortTransaction();
                 res.status(422).json({ message: "Unable to update item." });

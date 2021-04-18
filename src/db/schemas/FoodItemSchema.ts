@@ -9,6 +9,7 @@ const FoodItemSchema = new schema(
   {
     name: { type: String, required: [true, "Name is required"], unique: true },
     type: { type: String, enum: ["veg", "nonVeg"] },
+    price: { type: Number, default: 0, required: true },
     categories: [{ type: schema.Types.ObjectId, ref: "FoodCategory" }],
     restaurent: { type: schema.Types.ObjectId, ref: "Restaurent" },
     company: { type: schema.Types.ObjectId, ref: "Company" },

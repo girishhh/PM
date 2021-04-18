@@ -36,6 +36,7 @@ CartItemSchema.statics.saveCartItem = async function (
           },
           { new: true, session }
         ).exec();
+
         if (updatedCart) {
           res.status(201).send();
         } else {
@@ -48,7 +49,7 @@ CartItemSchema.statics.saveCartItem = async function (
           customer: userId,
           restaurent: formData.restaurent,
         });
-        await cartObj.save({ session });
+        const cart = await cartObj.save({ session });
         const cartItemObj = new CartItem({
           ...formData,
           cart: cartObj.id,
