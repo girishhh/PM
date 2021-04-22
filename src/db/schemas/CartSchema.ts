@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 import httpContext from "express-http-context";
-import { attachCompanyToQuery } from "../../helpers/MongooseHelper";
+import {
+  attachCompanyToQuery,
+  attachVersionIncreamentor,
+} from "../../helpers/MongooseHelper";
 import { CART_ID } from "../../constants/CompanyConstants";
 
 const schema = mongoose.Schema;
@@ -41,5 +44,6 @@ CartSchema.pre("findOne", function () {
 });
 
 attachCompanyToQuery(CartSchema);
+attachVersionIncreamentor(CartSchema);
 
 export { CartSchema };

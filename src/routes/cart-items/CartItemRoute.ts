@@ -95,7 +95,7 @@ class CartItemRoute {
       "/:id",
       async (req: Request, res: Response, next: NextFunction) => {
         await httpContext.ns.runPromise(async () => {
-          const formData = params(req.body).only("quantity");
+          const formData = params(req.body).only("quantity", "incQuantity");
           const session = await mongoose.startSession();
           await session.withTransaction(async () => {
             const cartItem = await CartItem.findByIdAndUpdate(
@@ -107,7 +107,11 @@ class CartItemRoute {
               const cart = await Cart.findByIdAndUpdate(
                 cartItem.cart,
                 {
-                  $inc: { subTotal: cartItem.price },
+                  $inc: {
+                    subTotal: formData.incQuantity
+                      ? cartItem.price
+                      : -cartItem.price,
+                  },
                 },
                 { new: true, session }
               ).exec();
@@ -157,7 +161,21 @@ class CartItemRoute {
                 await session.abortTransaction();
               }
             } else {
-              res.status(204).send();
+              const cart = await Cart.findByIdAndUpdate(
+                cartItem.cart,
+                {
+                  $inc: {
+                    subTotal: -cartItem.price,
+                  },
+                },
+                { new: true, session }
+              ).exec();
+              if (cart) {
+                res.status(204).send();
+              } else {
+                await session.abortTransaction();
+                res.status(404).send();
+              }
             }
           });
         });

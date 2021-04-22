@@ -6,7 +6,10 @@ import {
   COMPANY_ID,
   SUB_DOMAIN,
 } from "../constants/CompanyConstants";
-import { QUERY_METHODS } from "../constants/MongooseConstants";
+import {
+  QUERY_METHODS,
+  UPDATE_QUERY_METHODS,
+} from "../constants/MongooseConstants";
 import { USER_ID } from "../constants/UserConstants";
 import { KeyValue } from "../interfaces/CommonInterface";
 
@@ -81,4 +84,13 @@ export const buildQueryConditions = function (conditions: KeyValue): KeyValue {
     conditions[key] = opearators;
   }
   return conditions;
+};
+
+export const attachVersionIncreamentor = (schema: mongoose.Schema): void => {
+  for (let i = 0; i < UPDATE_QUERY_METHODS.length; i++) {
+    schema.pre(UPDATE_QUERY_METHODS[i], function () {
+      const self = this as any;
+      self.update({}, { $inc: { __v: 1 } });
+    });
+  }
 };

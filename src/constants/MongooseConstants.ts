@@ -13,3 +13,11 @@ export const QUERY_METHODS = [
   "updateMany",
   "save",
 ];
+
+export const UPDATE_QUERY_METHODS = [
+  "findOneAndUpdate",
+  "update",
+  "updateOne",
+  "updateMany",
+  "findByIdAndUpdate",
+];

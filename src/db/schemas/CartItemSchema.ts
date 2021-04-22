@@ -2,7 +2,10 @@ import { Response } from "express";
 import { isEmpty } from "lodash";
 import mongoose from "mongoose";
 import "express-async-errors";
-import { attachCompanyToQuery } from "../../helpers/MongooseHelper";
+import {
+  attachCompanyToQuery,
+  attachVersionIncreamentor,
+} from "../../helpers/MongooseHelper";
 import { CartInterface } from "../../interfaces/CartInterface";
 import { CartItem } from "../models/CartItemModel";
 import { Cart } from "../models/CartModel";
@@ -49,7 +52,7 @@ CartItemSchema.statics.saveCartItem = async function (
           customer: userId,
           restaurent: formData.restaurent,
         });
-        const cart = await cartObj.save({ session });
+        await cartObj.save({ session });
         const cartItemObj = new CartItem({
           ...formData,
           cart: cartObj.id,
@@ -72,5 +75,6 @@ CartItemSchema.pre("findOne", function () {
 });
 
 attachCompanyToQuery(CartItemSchema);
+attachVersionIncreamentor(CartItemSchema);
 
 export { CartItemSchema };

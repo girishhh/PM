@@ -102,6 +102,7 @@ class FoodItemRoute {
           const formData = params(req.body).only(
             "name",
             "type",
+            "price",
             "categories",
             "restaurent"
           );
@@ -116,7 +117,12 @@ class FoodItemRoute {
       "/:id",
       async (req: Request, res: Response, next: NextFunction) => {
         await httpContext.ns.runPromise(async () => {
-          const formData = params(req.body).only("name", "type", "categories");
+          const formData = params(req.body).only(
+            "name",
+            "type",
+            "price",
+            "categories"
+          );
           const foodItem = await FoodItem.findByIdAndUpdate(
             req.params.id,
             formData
