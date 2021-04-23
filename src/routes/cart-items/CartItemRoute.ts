@@ -35,8 +35,7 @@ class CartItemRoute {
             cart?.restaurent.toString() !== formData.restaurent
           ) {
             return res.status(422).json({
-              message: "Cart already exist for other restaurent",
-              code: "CART_EXISTS_FOR_OTHER_RESTAURENT",
+              message: "CART_EXISTS_FOR_OTHER_RESTAURENT",
             });
           }
           CartItem.saveCartItem(formData, res, userId, cart);

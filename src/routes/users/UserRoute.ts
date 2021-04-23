@@ -168,7 +168,9 @@ class UserRoute {
         await httpContext.ns.runPromise(async () => {
           const cart = await Cart.findOne({
             customer: httpContext.get(USER_ID),
-          });
+          })
+            .populate("restaurent")
+            .exec();
           const respJson = { cartDetails: cart };
           res.status(200).json(respJson);
         });
