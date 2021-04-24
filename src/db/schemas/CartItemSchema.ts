@@ -1,7 +1,7 @@
 import { Response } from "express";
+import "express-async-errors";
 import { isEmpty } from "lodash";
 import mongoose from "mongoose";
-import "express-async-errors";
 import {
   attachCompanyToQuery,
   attachVersionIncreamentor,
@@ -32,26 +32,31 @@ CartItemSchema.statics.saveCartItem = async function (
       if (!isEmpty(cart)) {
         const cartItemObj = new CartItem({ ...formData, cart: cart?.id });
         const cartItem = await cartItemObj.save({ session });
-        const updatedCart = await Cart.findByIdAndUpdate(
-          cartItem.cart,
-          {
-            $inc: { subTotal: cartItem.price },
-          },
-          { new: true, session }
-        ).exec();
-
-        if (updatedCart) {
-          res.status(201).send();
-        } else {
+        const paymentChargesAttributes = await Cart.getPaymentCharges(
+          formData,
+          cart?.subTotal as number,
+          cartItem.price
+        );
+        cart?.set(paymentChargesAttributes);
+        const updatedCart = await cart?.save({ session });
+        if (!updatedCart) {
           await session.abortTransaction();
-          res.status(422).json({ message: "Unable to save item" });
+          return res.status(422).json({ message: "Unable to save item." });
         }
+        res.status(201).send();
       } else {
-        const cartObj = new Cart({
+        const paymentChargesAttributes = await Cart.getPaymentCharges(
+          formData,
+          0,
+          formData.price
+        );
+        const cartAttributes = {
+          ...paymentChargesAttributes,
           subTotal: formData.price,
           customer: userId,
           restaurent: formData.restaurent,
-        });
+        };
+        const cartObj = new Cart(cartAttributes);
         await cartObj.save({ session });
         const cartItemObj = new CartItem({
           ...formData,

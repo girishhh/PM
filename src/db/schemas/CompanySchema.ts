@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { CommonConstants } from "../../constants/CommonConstants";
 import { attachAdminToCompanyQuery } from "../../helpers/MongooseHelper";
 import { Company } from "../models/CompanyModel";
+import { PaymentChargesSchema } from "./PaymentChargesSchema";
 
 const schema = mongoose.Schema;
 
@@ -15,6 +16,7 @@ const CompanySchema = new schema({
   },
   timeZone: { type: String, required: [true, "Timezone is required"] },
   admin: { type: schema.Types.ObjectId, ref: "User" },
+  paymentCharges: PaymentChargesSchema,
 });
 
 CompanySchema.statics.getAdminCompany = async function () {

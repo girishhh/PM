@@ -23,7 +23,8 @@ class CompanyRoute {
             "name",
             "city",
             "subdomain",
-            "timeZone"
+            "timeZone",
+            "paymentCharges"
           );
           const companyObj = new Company(formData);
           const company = await companyObj.save();
@@ -85,7 +86,8 @@ class CompanyRoute {
             "city",
             "subdomain",
             "timeZone",
-            "users"
+            "users",
+            "paymentCharges"
           );
           const company = await Company.findOneAndUpdate(
             { _id: req.params.id },

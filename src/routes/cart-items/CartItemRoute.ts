@@ -28,6 +28,7 @@ class CartItemRoute {
             "foodItem",
             "restaurent"
           );
+          formData.incQuantity = true;
           const userId = httpContext.get(USER_ID);
           const cart = await Cart.findOne({ customer: userId });
           if (
@@ -103,22 +104,24 @@ class CartItemRoute {
               { new: true, session }
             ).exec();
             if (cartItem) {
-              const cart = await Cart.findByIdAndUpdate(
-                cartItem.cart,
-                {
-                  $inc: {
-                    subTotal: formData.incQuantity
-                      ? cartItem.price
-                      : -cartItem.price,
-                  },
-                },
-                { new: true, session }
-              ).exec();
+              const cart = await Cart.findById(cartItem.cart);
               if (cart) {
+                const paymentChargesAttributes = await Cart.getPaymentCharges(
+                  formData,
+                  cart.subTotal,
+                  cartItem.price
+                );
+                cart?.set(paymentChargesAttributes);
+                const updatedCart = await cart?.save({ session });
+                if (!updatedCart) {
+                  await session.abortTransaction();
+                  return res
+                    .status(422)
+                    .json({ message: "Unable to update item." });
+                }
                 res.status(200).send();
               } else {
-                await session.abortTransaction();
-                res.status(422).json({ message: "Unable to update item." });
+                res.status(404).send();
               }
             } else {
               await session.abortTransaction();
@@ -160,19 +163,23 @@ class CartItemRoute {
                 await session.abortTransaction();
               }
             } else {
-              const cart = await Cart.findByIdAndUpdate(
-                cartItem.cart,
-                {
-                  $inc: {
-                    subTotal: -cartItem.price,
-                  },
-                },
-                { new: true, session }
-              ).exec();
+              const cart = await Cart.findById(cartItem.cart);
               if (cart) {
+                const paymentChargesAttributes = await Cart.getPaymentCharges(
+                  {},
+                  cart.subTotal,
+                  cartItem.price
+                );
+                cart?.set(paymentChargesAttributes);
+                const updatedCart = await cart?.save({ session });
+                if (!updatedCart) {
+                  await session.abortTransaction();
+                  return res
+                    .status(422)
+                    .json({ message: "Unable to update item." });
+                }
                 res.status(204).send();
               } else {
-                await session.abortTransaction();
                 res.status(404).send();
               }
             }
