@@ -118,7 +118,7 @@ class MenuRoute {
             formData,
             { new: true }
           ).exec();
-          if (!menu) res.status(404).send();
+          if (!menu) return res.status(404).send();
           res.status(204).send();
         });
       }
@@ -134,7 +134,7 @@ class MenuRoute {
             { activeMenu: req.params.id },
             { new: true }
           ).exec();
-          if (!restaurent) res.status(404).send();
+          if (!restaurent) return res.status(404).send();
           res.status(204).send();
         });
       }

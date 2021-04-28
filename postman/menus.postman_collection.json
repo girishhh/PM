@@ -1,0 +1,261 @@
+{
+	"info": {
+		"_postman_id": "5a45cf4e-0685-44f9-8da2-7790ad648282",
+		"name": "menus",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJjcmVhdGVGb29kSXRlbSIsInZpZXdGb29kSXRlbSIsInZpZXdGb29kSXRlbUxpc3QiLCJlZGl0Rm9vZEl0ZW0iLCJkZWxldGVGb29kSXRlbSIsInZpZXdSZXN0YXVyZW50Il0sIl9pZCI6IjYwMjYyNmVhOGQ3NTQ1N2ZmMjAyNGRjYiIsIm5hbWUiOiJvd25lciJ9XSwicmVzdGF1cmVudHMiOlsiNjAyNjI4MzNlODAwNGUwZTAwODVhMjcxIl0sIl9pZCI6IjYwMjYyODg4ZTgwMDRlMGUwMDg1YTI3MyIsImZpcnN0TmFtZSI6Im93bmVyIiwibGFzdE5hbWUiOiJvd25lciIsImNpdHkiOiJiYW5nYWxvcmUiLCJlbWFpbCI6Im93bmVyQGdtYWlsLmNvbSIsInRva2VuIjoiMWYyYTYzYjQ2OGEyYjIxNzc5NWVhYTA4ZDI2NGM1YmM4NmVjZjI0NCIsImNvbXBhbnkiOiI2MDI2Mjc2ZGU4MDA0ZTBlMDA4NWEyNmUiLCJfX3YiOjAsInBhc3N3b3JkIjoiJDJiJDEwJEs1N0h4SUxCZjhhOTcwcEVFZ1FkUU91M3JvSGlKamdhZDhGbUZhMW9vOVcuMWNOZVJjMU9pIiwicGVybWlzc2lvbnMiOlsiY3JlYXRlRm9vZEl0ZW0iLCJ2aWV3Rm9vZEl0ZW0iLCJ2aWV3Rm9vZEl0ZW1MaXN0IiwiZWRpdEZvb2RJdGVtIiwiZGVsZXRlRm9vZEl0ZW0iLCJ2aWV3UmVzdGF1cmVudCJdLCJpYXQiOjE2MTMzNzQ5NDl9.U7dsqNdFJGMjic8fn5xP-DuopJnCEmyDdJlswQ8fhDw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3005/menus/602a54a1422de336d8c42e4a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"menus",
+						"602a54a1422de336d8c42e4a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJjcmVhdGVGb29kSXRlbSIsInZpZXdGb29kSXRlbSIsInZpZXdGb29kSXRlbUxpc3QiLCJlZGl0Rm9vZEl0ZW0iLCJkZWxldGVGb29kSXRlbSIsInZpZXdSZXN0YXVyZW50Il0sIl9pZCI6IjYwMjYyNmVhOGQ3NTQ1N2ZmMjAyNGRjYiIsIm5hbWUiOiJvd25lciJ9XSwicmVzdGF1cmVudHMiOlsiNjAyNjI4MzNlODAwNGUwZTAwODVhMjcxIl0sIl9pZCI6IjYwMjYyODg4ZTgwMDRlMGUwMDg1YTI3MyIsImZpcnN0TmFtZSI6Im93bmVyIiwibGFzdE5hbWUiOiJvd25lciIsImNpdHkiOiJiYW5nYWxvcmUiLCJlbWFpbCI6Im93bmVyQGdtYWlsLmNvbSIsInRva2VuIjoiMWYyYTYzYjQ2OGEyYjIxNzc5NWVhYTA4ZDI2NGM1YmM4NmVjZjI0NCIsImNvbXBhbnkiOiI2MDI2Mjc2ZGU4MDA0ZTBlMDA4NWEyNmUiLCJfX3YiOjAsInBhc3N3b3JkIjoiJDJiJDEwJEs1N0h4SUxCZjhhOTcwcEVFZ1FkUU91M3JvSGlKamdhZDhGbUZhMW9vOVcuMWNOZVJjMU9pIiwicGVybWlzc2lvbnMiOlsiY3JlYXRlRm9vZEl0ZW0iLCJ2aWV3Rm9vZEl0ZW0iLCJ2aWV3Rm9vZEl0ZW1MaXN0IiwiZWRpdEZvb2RJdGVtIiwiZGVsZXRlRm9vZEl0ZW0iLCJ2aWV3UmVzdGF1cmVudCJdLCJpYXQiOjE2MTMzNzQ5NDl9.U7dsqNdFJGMjic8fn5xP-DuopJnCEmyDdJlswQ8fhDw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Sunday special2\"    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3005/menus/602a54a1422de336d8c42e4a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"menus",
+						"602a54a1422de336d8c42e4a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJjcmVhdGVGb29kSXRlbSIsInZpZXdGb29kSXRlbSIsInZpZXdGb29kSXRlbUxpc3QiLCJlZGl0Rm9vZEl0ZW0iLCJkZWxldGVGb29kSXRlbSIsInZpZXdSZXN0YXVyZW50Il0sIl9pZCI6IjYwMjYyNmVhOGQ3NTQ1N2ZmMjAyNGRjYiIsIm5hbWUiOiJvd25lciJ9XSwicmVzdGF1cmVudHMiOlsiNjAyNjI4MzNlODAwNGUwZTAwODVhMjcxIl0sIl9pZCI6IjYwMjYyODg4ZTgwMDRlMGUwMDg1YTI3MyIsImZpcnN0TmFtZSI6Im93bmVyIiwibGFzdE5hbWUiOiJvd25lciIsImNpdHkiOiJiYW5nYWxvcmUiLCJlbWFpbCI6Im93bmVyQGdtYWlsLmNvbSIsInRva2VuIjoiMWYyYTYzYjQ2OGEyYjIxNzc5NWVhYTA4ZDI2NGM1YmM4NmVjZjI0NCIsImNvbXBhbnkiOiI2MDI2Mjc2ZGU4MDA0ZTBlMDA4NWEyNmUiLCJfX3YiOjAsInBhc3N3b3JkIjoiJDJiJDEwJEs1N0h4SUxCZjhhOTcwcEVFZ1FkUU91M3JvSGlKamdhZDhGbUZhMW9vOVcuMWNOZVJjMU9pIiwicGVybWlzc2lvbnMiOlsiY3JlYXRlRm9vZEl0ZW0iLCJ2aWV3Rm9vZEl0ZW0iLCJ2aWV3Rm9vZEl0ZW1MaXN0IiwiZWRpdEZvb2RJdGVtIiwiZGVsZXRlRm9vZEl0ZW0iLCJ2aWV3UmVzdGF1cmVudCJdLCJpYXQiOjE2MTMzNzQ5NDl9.U7dsqNdFJGMjic8fn5xP-DuopJnCEmyDdJlswQ8fhDw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3005/menus/602a54a1422de336d8c42e4a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"menus",
+						"602a54a1422de336d8c42e4a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJjcmVhdGVGb29kSXRlbSIsInZpZXdGb29kSXRlbSIsInZpZXdGb29kSXRlbUxpc3QiLCJlZGl0Rm9vZEl0ZW0iLCJkZWxldGVGb29kSXRlbSIsInZpZXdSZXN0YXVyZW50Il0sIl9pZCI6IjYwMjYyNmVhOGQ3NTQ1N2ZmMjAyNGRjYiIsIm5hbWUiOiJvd25lciJ9XSwicmVzdGF1cmVudHMiOlsiNjAyNjI4MzNlODAwNGUwZTAwODVhMjcxIl0sIl9pZCI6IjYwMjYyODg4ZTgwMDRlMGUwMDg1YTI3MyIsImZpcnN0TmFtZSI6Im93bmVyIiwibGFzdE5hbWUiOiJvd25lciIsImNpdHkiOiJiYW5nYWxvcmUiLCJlbWFpbCI6Im93bmVyQGdtYWlsLmNvbSIsInRva2VuIjoiMWYyYTYzYjQ2OGEyYjIxNzc5NWVhYTA4ZDI2NGM1YmM4NmVjZjI0NCIsImNvbXBhbnkiOiI2MDI2Mjc2ZGU4MDA0ZTBlMDA4NWEyNmUiLCJfX3YiOjAsInBhc3N3b3JkIjoiJDJiJDEwJEs1N0h4SUxCZjhhOTcwcEVFZ1FkUU91M3JvSGlKamdhZDhGbUZhMW9vOVcuMWNOZVJjMU9pIiwicGVybWlzc2lvbnMiOlsiY3JlYXRlRm9vZEl0ZW0iLCJ2aWV3Rm9vZEl0ZW0iLCJ2aWV3Rm9vZEl0ZW1MaXN0IiwiZWRpdEZvb2RJdGVtIiwiZGVsZXRlRm9vZEl0ZW0iLCJ2aWV3UmVzdGF1cmVudCJdLCJpYXQiOjE2MTMzNzQ5NDl9.U7dsqNdFJGMjic8fn5xP-DuopJnCEmyDdJlswQ8fhDw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3005/menus?start=0&limit=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"menus"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJjcmVhdGVGb29kSXRlbSIsInZpZXdGb29kSXRlbSIsInZpZXdGb29kSXRlbUxpc3QiLCJlZGl0Rm9vZEl0ZW0iLCJkZWxldGVGb29kSXRlbSIsInZpZXdSZXN0YXVyZW50Il0sIl9pZCI6IjYwMjYyNmVhOGQ3NTQ1N2ZmMjAyNGRjYiIsIm5hbWUiOiJvd25lciJ9XSwicmVzdGF1cmVudHMiOlsiNjAyNjI4MzNlODAwNGUwZTAwODVhMjcxIl0sIl9pZCI6IjYwMjYyODg4ZTgwMDRlMGUwMDg1YTI3MyIsImZpcnN0TmFtZSI6Im93bmVyIiwibGFzdE5hbWUiOiJvd25lciIsImNpdHkiOiJiYW5nYWxvcmUiLCJlbWFpbCI6Im93bmVyQGdtYWlsLmNvbSIsInRva2VuIjoiMWYyYTYzYjQ2OGEyYjIxNzc5NWVhYTA4ZDI2NGM1YmM4NmVjZjI0NCIsImNvbXBhbnkiOiI2MDI2Mjc2ZGU4MDA0ZTBlMDA4NWEyNmUiLCJfX3YiOjAsInBhc3N3b3JkIjoiJDJiJDEwJEs1N0h4SUxCZjhhOTcwcEVFZ1FkUU91M3JvSGlKamdhZDhGbUZhMW9vOVcuMWNOZVJjMU9pIiwicGVybWlzc2lvbnMiOlsiY3JlYXRlRm9vZEl0ZW0iLCJ2aWV3Rm9vZEl0ZW0iLCJ2aWV3Rm9vZEl0ZW1MaXN0IiwiZWRpdEZvb2RJdGVtIiwiZGVsZXRlRm9vZEl0ZW0iLCJ2aWV3UmVzdGF1cmVudCJdLCJpYXQiOjE2MTMzNzQ5NDl9.U7dsqNdFJGMjic8fn5xP-DuopJnCEmyDdJlswQ8fhDw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Sunday special\",\r\n    \"menuItems\": [\"602a2e7a86b40f3d64d026c2\"],\r\n    \"restaurent\": \"60262833e8004e0e0085a271\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3005/menus",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"menus"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3005/menus/602a585d41a27e38b4615d13/activate",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJjcmVhdGVGb29kSXRlbSIsInZpZXdGb29kSXRlbSIsInZpZXdGb29kSXRlbUxpc3QiLCJlZGl0Rm9vZEl0ZW0iLCJkZWxldGVGb29kSXRlbSIsInZpZXdSZXN0YXVyZW50Il0sIl9pZCI6IjYwMjYyNmVhOGQ3NTQ1N2ZmMjAyNGRjYiIsIm5hbWUiOiJvd25lciJ9XSwicmVzdGF1cmVudHMiOlsiNjAyNjI4MzNlODAwNGUwZTAwODVhMjcxIl0sIl9pZCI6IjYwMjYyODg4ZTgwMDRlMGUwMDg1YTI3MyIsImZpcnN0TmFtZSI6Im93bmVyIiwibGFzdE5hbWUiOiJvd25lciIsImNpdHkiOiJiYW5nYWxvcmUiLCJlbWFpbCI6Im93bmVyQGdtYWlsLmNvbSIsInRva2VuIjoiMWYyYTYzYjQ2OGEyYjIxNzc5NWVhYTA4ZDI2NGM1YmM4NmVjZjI0NCIsImNvbXBhbnkiOiI2MDI2Mjc2ZGU4MDA0ZTBlMDA4NWEyNmUiLCJfX3YiOjAsInBhc3N3b3JkIjoiJDJiJDEwJEs1N0h4SUxCZjhhOTcwcEVFZ1FkUU91M3JvSGlKamdhZDhGbUZhMW9vOVcuMWNOZVJjMU9pIiwicGVybWlzc2lvbnMiOlsiY3JlYXRlRm9vZEl0ZW0iLCJ2aWV3Rm9vZEl0ZW0iLCJ2aWV3Rm9vZEl0ZW1MaXN0IiwiZWRpdEZvb2RJdGVtIiwiZGVsZXRlRm9vZEl0ZW0iLCJ2aWV3UmVzdGF1cmVudCJdLCJpYXQiOjE2MTU3OTY2NzJ9.AAVCcwUlbzPdlbOyfFJIoJgyrYEGBAkWPf3if8wPqW8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"restaurentId\": \"60262833e8004e0e0085a271\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3005/menus/602a585d41a27e38b4615d13/activate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"menus",
+						"602a585d41a27e38b4615d13",
+						"activate"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

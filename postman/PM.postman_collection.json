@@ -1,0 +1,780 @@
+{
+	"info": {
+		"_postman_id": "912808e4-9241-4066-be26-e722266a8a29",
+		"name": "PM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user signin",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"karowner@gmail.com\",\r\n    \"password\": \"Giri1234@\"    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3005/users/sign-in",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"users",
+						"sign-in"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJjcmVhdGVPd25lciJdLCJfaWQiOiI1ZmUwOTFkMGI5NzgzZTViNWUwNWUyODciLCJuYW1lIjoiY29tcGFueWFkbWluIn1dLCJfaWQiOiI1ZmVhZTllMTdmZDNkYzQ5ZjQ3NWQ1N2EiLCJmaXJzdE5hbWUiOiJnaXJpc2giLCJsYXN0TmFtZSI6Imt1bGFrYXJuaSIsImNpdHkiOiJiYW5nYWxvcmUiLCJlbWFpbCI6ImdpcmlAZ21haWwuY29tIiwiY29tcGFueSI6IjVmZWFlOTUyN2ZkM2RjNDlmNDc1ZDU3OSIsInRva2VuIjoiNmUwZDc2YTVjZWYwMmEwYzBlNTM5OWU4NmI2MzFhMmE0ZDg5Mzk5ZiIsIl9fdiI6MCwicGFzc3dvcmQiOiIkMmIkMTAkSHN5anlIM3FBOTYyanA5cENNam0zLlF1UzZCWjdlQlJGeHRjYU95TjQ4emdqVTZPNm9hVHUiLCJwZXJtaXNzaW9ucyI6WyJjcmVhdGVPd25lciJdLCJpYXQiOjE2MDkyMzEwODF9.r37HBwDpH2bdBUBQS35MSJ7ky0AsMrr5t3JTwrDzaug",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"owner@gmail.com\",\r\n    \"firstName\": \"Girish\",\r\n    \"lastName\": \"Kulakarni\",\r\n    \"city\": \"Bangalore\",\r\n    \"roles\": [\"owner\"],\r\n    \"restaurent\": \"5feaecb1b2118339007cf0a7\",\r\n    \"addresses\": [\r\n        {\r\n            \"country\": \"India\",\r\n            \"city\": \"Bangalore\",\r\n            \"state\": \"karanataka\",\r\n            \"district\": \"koppal\",\r\n            \"postalCode\": \"583229\",\r\n            \"primary\": true\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3005/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-company",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOmZhbHNlLCJhZGRyZXNzZXMiOltdLCJyb2xlcyI6W3sicGVybWlzc2lvbnMiOlsiY3JlYXRlT3duZXIiLCJjcmVhdGVDb21wYW55Il0sIl9pZCI6IjVmYjE2YWNhM2NmNmJhYmZkMDhjNDFjMCIsIm5hbWUiOiJhZG1pbiJ9XSwiX2lkIjoiNWZjODkyNzViYmRjMDQzODgwYWFkZGYzIiwiZmlyc3ROYW1lIjoiR2lyaXNoIiwibGFzdE5hbWUiOiJLdWxha2FybmkiLCJlbWFpbCI6ImdpcmlAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkT3lHdnVXejU3NC83THlILmNGc1VPZUNQTE12bDBYWmJyQjRFZjc1Y21ZZ2YyQ2tuZWYvbksiLCJjb21wYW55IjoiNWZjODhlNWJiYmRjMDQzODgwYWFkZGYxIiwicGVybWlzc2lvbnMiOlsiY3JlYXRlT3duZXIiLCJjcmVhdGVDb21wYW55Il0sImlhdCI6MTYwNjk4MzU5NH0.mKnHk-lLptaTdusXhVR57yz2wrkMqXz5CVSwCoLngo0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "admin",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"kar\",\r\n    \"city\": \"bangalore\",\r\n    \"subdomain\": \"delhi\",\r\n    \"timeZone\": \"Asia/Bangkok\"    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3005/companies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"companies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "activate-account",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "admin",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"token\": \"2e94d02a99c970ad09e9422e84c5a60a93bbe3e6\",\r\n    \"password\": \"Giri1234@\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3005/users/activate-account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"users",
+						"activate-account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sign-up",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "admin",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"customer10@gmail.com\",\r\n    \"password\": \"Giri1234@\",\r\n    \"firstName\": \"Girish\",\r\n    \"lastName\": \"Kulakarni\",\r\n    \"city\": \"Bangalore\",    \r\n    \"roles\": [\"admin\"],\r\n    \"address\": [\r\n        {\r\n            \"country\": \"India\",\r\n            \"city\": \"Bangalore\",\r\n            \"state\": \"karanataka\",\r\n            \"district\": \"koppal\",\r\n            \"postalCode\": \"583229\",\r\n            \"primary\": true\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3005/users/sign-up",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"users",
+						"sign-up"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "company-list",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJjcmVhdGVPd25lciJdLCJfaWQiOiI1ZmUwOTFkMGI5NzgzZTViNWUwNWUyODciLCJuYW1lIjoiY29tcGFueWFkbWluIn1dLCJfaWQiOiI1ZmUzM2EyMWRlYzhhZTNjZDhiNmIxYjQiLCJmaXJzdE5hbWUiOiJrbCIsImxhc3ROYW1lIjoia2wiLCJjaXR5IjoiYmFuZ2Fsb3JlIiwiZW1haWwiOiJrbEBrbC5jb20iLCJjb21wYW55IjoiNWZlMzIyYzBkMDFlZGYyNmUwMzBjOGI4IiwidG9rZW4iOiIwZThhYjZkZTIwYmZkN2JhNWRmNGQxNDIxZWYwZGQ3MjEyZGMyZjY1IiwiX192IjowLCJwYXNzd29yZCI6IiQyYiQxMCRXdjN4Q2Q1b2dMay44QkZzejdPZ21PV2hELmZGZUZZL01ZcFAvU0hJd2JpYnVZN2s0WndOYSIsInBlcm1pc3Npb25zIjpbImNyZWF0ZU93bmVyIl0sImlhdCI6MTYwODgzMTEzMn0.xrAoWw5AXMB-QEw5kAcOPLZqbVS2pHre38yTiT8dK08",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "admin",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3005/companies?start=0&limit=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"companies"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "company-details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOmZhbHNlLCJhZGRyZXNzZXMiOltdLCJyb2xlcyI6W3sicGVybWlzc2lvbnMiOlsiY3JlYXRlT3duZXIiLCJjcmVhdGVDb21wYW55Il0sIl9pZCI6IjVmYjE2YWNhM2NmNmJhYmZkMDhjNDFjMCIsIm5hbWUiOiJhZG1pbiJ9XSwiX2lkIjoiNWZjODkyNzViYmRjMDQzODgwYWFkZGYzIiwiZmlyc3ROYW1lIjoiR2lyaXNoIiwibGFzdE5hbWUiOiJLdWxha2FybmkiLCJlbWFpbCI6ImdpcmlAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkT3lHdnVXejU3NC83THlILmNGc1VPZUNQTE12bDBYWmJyQjRFZjc1Y21ZZ2YyQ2tuZWYvbksiLCJjb21wYW55IjoiNWZjODhlNWJiYmRjMDQzODgwYWFkZGYxIiwicGVybWlzc2lvbnMiOlsiY3JlYXRlT3duZXIiLCJjcmVhdGVDb21wYW55Il0sImlhdCI6MTYwNjk4MzU5NH0.mKnHk-lLptaTdusXhVR57yz2wrkMqXz5CVSwCoLngo0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "admin",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3005/companies/5fc88e5bbbdc043880aaddf1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"companies",
+						"5fc88e5bbbdc043880aaddf1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "company-update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOmZhbHNlLCJhZGRyZXNzZXMiOltdLCJyb2xlcyI6W3sicGVybWlzc2lvbnMiOlsiY3JlYXRlT3duZXIiLCJjcmVhdGVDb21wYW55Il0sIl9pZCI6IjVmYjE2YWNhM2NmNmJhYmZkMDhjNDFjMCIsIm5hbWUiOiJhZG1pbiJ9XSwiX2lkIjoiNWZjODkyNzViYmRjMDQzODgwYWFkZGYzIiwiZmlyc3ROYW1lIjoiR2lyaXNoIiwibGFzdE5hbWUiOiJLdWxha2FybmkiLCJlbWFpbCI6ImdpcmlAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkT3lHdnVXejU3NC83THlILmNGc1VPZUNQTE12bDBYWmJyQjRFZjc1Y21ZZ2YyQ2tuZWYvbksiLCJjb21wYW55IjoiNWZjODhlNWJiYmRjMDQzODgwYWFkZGYxIiwicGVybWlzc2lvbnMiOlsiY3JlYXRlT3duZXIiLCJjcmVhdGVDb21wYW55Il0sImlhdCI6MTYwNjk4MzU5NH0.mKnHk-lLptaTdusXhVR57yz2wrkMqXz5CVSwCoLngo0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "admin",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"users\": [],\r\n    \"_id\": \"5fc88e5bbbdc043880aaddf1\",\r\n    \"name\": \"\",\r\n    \"city\": \"bangaloree\",\r\n    \"subdomain\": \"admin\",\r\n    \"timeZone\": \"Asia/Bangkok\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3005/companies/5fc88e5bbbdc043880aaddf1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"companies",
+						"5fc88e5bbbdc043880aaddf1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "restaurent-list",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJjcmVhdGVGb29kSXRlbSIsInZpZXdGb29kSXRlbSIsInZpZXdGb29kSXRlbUxpc3QiLCJlZGl0Rm9vZEl0ZW0iLCJkZWxldGVGb29kSXRlbSIsInZpZXdSZXN0YXVyZW50Il0sIl9pZCI6IjYwMjYyNmVhOGQ3NTQ1N2ZmMjAyNGRjYiIsIm5hbWUiOiJvd25lciJ9XSwicmVzdGF1cmVudHMiOlsiNjAyNjI4MzNlODAwNGUwZTAwODVhMjcxIl0sIl9pZCI6IjYwMjYyODg4ZTgwMDRlMGUwMDg1YTI3MyIsImZpcnN0TmFtZSI6Im93bmVyIiwibGFzdE5hbWUiOiJvd25lciIsImNpdHkiOiJiYW5nYWxvcmUiLCJlbWFpbCI6Im93bmVyQGdtYWlsLmNvbSIsInRva2VuIjoiMWYyYTYzYjQ2OGEyYjIxNzc5NWVhYTA4ZDI2NGM1YmM4NmVjZjI0NCIsImNvbXBhbnkiOiI2MDI2Mjc2ZGU4MDA0ZTBlMDA4NWEyNmUiLCJfX3YiOjAsInBhc3N3b3JkIjoiJDJiJDEwJEs1N0h4SUxCZjhhOTcwcEVFZ1FkUU91M3JvSGlKamdhZDhGbUZhMW9vOVcuMWNOZVJjMU9pIiwicGVybWlzc2lvbnMiOlsiY3JlYXRlRm9vZEl0ZW0iLCJ2aWV3Rm9vZEl0ZW0iLCJ2aWV3Rm9vZEl0ZW1MaXN0IiwiZWRpdEZvb2RJdGVtIiwiZGVsZXRlRm9vZEl0ZW0iLCJ2aWV3UmVzdGF1cmVudCJdLCJpYXQiOjE2MTMzNzQ5NDl9.U7dsqNdFJGMjic8fn5xP-DuopJnCEmyDdJlswQ8fhDw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3005/restaurents?start=0&limit=10&conditions={\"_id\":{\"in\":  [\"60262833e8004e0e0085a271\"]}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"restaurents"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "conditions",
+							"value": "{\"_id\":{\"in\":  [\"60262833e8004e0e0085a271\"]}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "restaurent-create",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJjcmVhdGVPd25lciIsImNyZWF0ZVJlc3RhdXJlbnQiXSwiX2lkIjoiNWZmNTY3NWVmZGExYzQ3MjZmNWFiZjE4IiwibmFtZSI6ImNvbXBhbnlBZG1pbiJ9XSwiX2lkIjoiNWZmNmU4MGJlOTViZWM0NTk0ZDhkMmZmIiwiZmlyc3ROYW1lIjoiYWRtaW4iLCJsYXN0TmFtZSI6ImFkbWluIiwiY2l0eSI6IiBiYW5nYWxvcmUiLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImNvbXBhbnkiOiI1ZmY2ZGUxMzI4Yzk5YzRjODA3NzdjMDAiLCJ0b2tlbiI6ImQ5NWYyMDE4M2E4NDVlNGFhYzY1MmU4YmNlMWM4YTllMTQ2N2ViYjkiLCJfX3YiOjAsInBhc3N3b3JkIjoiJDJiJDEwJGl6SEVpM2FRY3BQbksxWUVqRlM4RU9SZkVDL29Rd1hLYTU2N0t2T2VrM2t3T21rVlQ3dWw2IiwicGVybWlzc2lvbnMiOlsiY3JlYXRlT3duZXIiLCJjcmVhdGVSZXN0YXVyZW50Il0sImlhdCI6MTYxMDAxNjg3NH0.-etU8I4I24pSYcypRAfGvhInA_dFIaA27bTiZeU067o",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"udupi hotel2\",\r\n    \"address\": {\r\n        \"country\": \"India\",\r\n        \"city\": \"Bangalore\",\r\n        \"state\": \"karanataka\",\r\n        \"district\": \"koppal\",\r\n        \"postalCode\": \"583229\",\r\n        \"primary\": true\r\n    },\r\n    \"lat\": 12.123456,\r\n    \"lng\": 16.897656,\r\n    \"geo_location_description\": \"karatagi, karnataka, india\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3005/restaurents",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"restaurents"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "restaurent-details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJjcmVhdGVPd25lciIsImNyZWF0ZVJlc3RhdXJlbnQiLCJ2aWV3UmVzdGF1cmVudCIsImVkaXRSZXN0YXVyZW50IiwiZGVsZXRlUmVzdGF1cmVudCIsInZpZXdGb29kQ2F0ZWdvcnkiLCJlZGl0Rm9vZENhdGVnb3J5IiwiY3JlYXRlRm9vZENhdGVnb3J5IiwiZGVsZXRlRm9vZENhdGVnb3J5Il0sIl9pZCI6IjYwMjYyNmU0OGQ3NTQ1N2ZmMjAyNGRjYSIsIm5hbWUiOiJjb21wYW55QWRtaW4ifV0sInJlc3RhdXJlbnRzIjpbXSwiX2lkIjoiNjAyNjI3YTVlODAwNGUwZTAwODVhMjZmIiwiZmlyc3ROYW1lIjoiY29tcGFkbWluIiwibGFzdE5hbWUiOiJjb21wYWRtaSIsImNpdHkiOiJiYW5nYWxvcmUiLCJlbWFpbCI6ImNvbXBhbnlhZG1pbkBnbWFpbC5jb20iLCJjb21wYW55IjoiNjAyNjI3NmRlODAwNGUwZTAwODVhMjZlIiwidG9rZW4iOiJhZjFmNDllZGMzY2Y2MTlhMzJhNDgzZmYwYjY5OGExOWQzNGFhY2NiIiwiX192IjowLCJwYXNzd29yZCI6IiQyYiQxMCR5bFE3SEg4eHQ5U2JGWkR4MS5XcW9lZDZjUUw5T3U4NldML21ScWU0cHpiUFF5ZWRZZ0NYUyIsInBlcm1pc3Npb25zIjpbImNyZWF0ZU93bmVyIiwiY3JlYXRlUmVzdGF1cmVudCIsInZpZXdSZXN0YXVyZW50IiwiZWRpdFJlc3RhdXJlbnQiLCJkZWxldGVSZXN0YXVyZW50Iiwidmlld0Zvb2RDYXRlZ29yeSIsImVkaXRGb29kQ2F0ZWdvcnkiLCJjcmVhdGVGb29kQ2F0ZWdvcnkiLCJkZWxldGVGb29kQ2F0ZWdvcnkiXSwiaWF0IjoxNjE1Nzk3MDI1fQ.n_7ykU6cib9B9pVASLJJF4gSYH7525qaNmcyJEJyBgU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3005/restaurents/60262833e8004e0e0085a271",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"restaurents",
+						"60262833e8004e0e0085a271"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "restaurent-update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJjcmVhdGVPd25lciJdLCJfaWQiOiI1ZmUwOTFkMGI5NzgzZTViNWUwNWUyODciLCJuYW1lIjoiY29tcGFueWFkbWluIn1dLCJfaWQiOiI1ZmUzM2EyMWRlYzhhZTNjZDhiNmIxYjQiLCJmaXJzdE5hbWUiOiJrbCIsImxhc3ROYW1lIjoia2wiLCJjaXR5IjoiYmFuZ2Fsb3JlIiwiZW1haWwiOiJrbEBrbC5jb20iLCJjb21wYW55IjoiNWZlMzIyYzBkMDFlZGYyNmUwMzBjOGI4IiwidG9rZW4iOiIwZThhYjZkZTIwYmZkN2JhNWRmNGQxNDIxZWYwZGQ3MjEyZGMyZjY1IiwiX192IjowLCJwYXNzd29yZCI6IiQyYiQxMCRXdjN4Q2Q1b2dMay44QkZzejdPZ21PV2hELmZGZUZZL01ZcFAvU0hJd2JpYnVZN2s0WndOYSIsInBlcm1pc3Npb25zIjpbImNyZWF0ZU93bmVyIl0sImlhdCI6MTYwODcyODkzOH0.5R1pQb7c94_hlpDxRa42DoKyN4tHaNrhzvUITubfQoc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"_id\": \"5fe4cc7cfa8d293d54352120\",\r\n        \"name\": \"udupi hotel2\",\r\n        \"created_by\": \"5fe33a21dec8ae3cd8b6b1b4\",\r\n        \"address\": {\r\n            \"primary\": true,\r\n            \"_id\": \"5fe4cc7cfa8d293d54352121\",\r\n            \"country\": \"India\",\r\n            \"city\": \"Bangaloree\",\r\n            \"state\": \"karanataka\",\r\n            \"district\": \"koppal\",\r\n            \"postalCode\": \"583229\",\r\n            \"modelName\": \"Restaurent\",\r\n            \"modelId\": \"5fe4cc7cfa8d293d54352120\",\r\n            \"company\": \"5fe322c0d01edf26e030c8b8\",\r\n            \"__v\": 0\r\n        },\r\n        \"company\": \"5fe322c0d01edf26e030c8b8\",\r\n        \"__v\": 0\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3005/restaurents/5fe4cc7cfa8d293d54352120",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"restaurents",
+						"5fe4cc7cfa8d293d54352120"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetNearByLocations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyC0P3If-HPI1CyqDwrjqqQMJypGLRjfwlY&location=-33.8670522,151.1957362&radius=1500",
+					"protocol": "https",
+					"host": [
+						"maps",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"maps",
+						"api",
+						"place",
+						"nearbysearch",
+						"json"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "AIzaSyC0P3If-HPI1CyqDwrjqqQMJypGLRjfwlY"
+						},
+						{
+							"key": "location",
+							"value": "-33.8670522,151.1957362"
+						},
+						{
+							"key": "radius",
+							"value": "1500"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "company-delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOmZhbHNlLCJhZGRyZXNzZXMiOltdLCJyb2xlcyI6W3sicGVybWlzc2lvbnMiOlsiY3JlYXRlT3duZXIiLCJjcmVhdGVDb21wYW55Il0sIl9pZCI6IjVmYjE2YWNhM2NmNmJhYmZkMDhjNDFjMCIsIm5hbWUiOiJhZG1pbiJ9XSwiX2lkIjoiNWZjODkyNzViYmRjMDQzODgwYWFkZGYzIiwiZmlyc3ROYW1lIjoiR2lyaXNoIiwibGFzdE5hbWUiOiJLdWxha2FybmkiLCJlbWFpbCI6ImdpcmlAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkT3lHdnVXejU3NC83THlILmNGc1VPZUNQTE12bDBYWmJyQjRFZjc1Y21ZZ2YyQ2tuZWYvbksiLCJjb21wYW55IjoiNWZjODhlNWJiYmRjMDQzODgwYWFkZGYxIiwicGVybWlzc2lvbnMiOlsiY3JlYXRlT3duZXIiLCJjcmVhdGVDb21wYW55Il0sImlhdCI6MTYwNjk4MzU5NH0.mKnHk-lLptaTdusXhVR57yz2wrkMqXz5CVSwCoLngo0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "admin",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3005/companies/5fc88e5bbbdc043880aaddf1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"companies",
+						"5fc88e5bbbdc043880aaddf1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-resend-confirmation-instructions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOmZhbHNlLCJhZGRyZXNzZXMiOltdLCJyb2xlcyI6W3sicGVybWlzc2lvbnMiOlsiY3JlYXRlT3duZXIiLCJjcmVhdGVDb21wYW55Il0sIl9pZCI6IjVmYjE2YWNhM2NmNmJhYmZkMDhjNDFjMCIsIm5hbWUiOiJhZG1pbiJ9XSwiX2lkIjoiNWZjODkyNzViYmRjMDQzODgwYWFkZGYzIiwiZmlyc3ROYW1lIjoiR2lyaXNoIiwibGFzdE5hbWUiOiJLdWxha2FybmkiLCJlbWFpbCI6ImdpcmlAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkT3lHdnVXejU3NC83THlILmNGc1VPZUNQTE12bDBYWmJyQjRFZjc1Y21ZZ2YyQ2tuZWYvbksiLCJjb21wYW55IjoiNWZjODhlNWJiYmRjMDQzODgwYWFkZGYxIiwicGVybWlzc2lvbnMiOlsiY3JlYXRlT3duZXIiLCJjcmVhdGVDb21wYW55Il0sImlhdCI6MTYwNjk4MzU5NH0.mKnHk-lLptaTdusXhVR57yz2wrkMqXz5CVSwCoLngo0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "admin",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"hh@hh.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3005/users/resend-confirmation-instructions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"users",
+						"resend-confirmation-instructions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-list",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJjcmVhdGVPd25lciIsImNyZWF0ZVJlc3RhdXJlbnQiLCJ2aWV3UmVzdGF1cmVudCIsImVkaXRSZXN0YXVyZW50Il0sIl9pZCI6IjYwMDA5MDk5Yzg5OTc0ZmQ3OTc3ZWNhNCIsIm5hbWUiOiJjb21wYW55QWRtaW4ifV0sInJlc3RhdXJlbnRzIjpbXSwiX2lkIjoiNjAwMDkxNjVjY2U1NzYwYTg4MjczNGMzIiwiZmlyc3ROYW1lIjoiYWRtaW4iLCJsYXN0TmFtZSI6ImFkbWluIiwiY2l0eSI6IkFzaWEvS29sa2F0YSIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiY29tcGFueSI6IjYwMDA5MTU2Y2NlNTc2MGE4ODI3MzRjMiIsInRva2VuIjoiOWI2OTdhOTg2ZmNjODc0YTQ1Njc5NmQ3NGU5Y2FmNGM3ODdkOTk4NyIsIl9fdiI6MCwicGFzc3dvcmQiOiIkMmIkMTAkNVhqRVovN3FSZEZBS2Z6dk9rSk0udVguQ1kvTUlxQnYvTGFyOGlvckFraWxRZjFKc2ExWjYiLCJwZXJtaXNzaW9ucyI6WyJjcmVhdGVPd25lciIsImNyZWF0ZVJlc3RhdXJlbnQiLCJ2aWV3UmVzdGF1cmVudCIsImVkaXRSZXN0YXVyZW50Il0sImlhdCI6MTYxMDk1NDgyN30.iVA_nEQu5Y177tYRwdBlYDFtB1WRC9syja-ROYcSajU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3005/users?start=0&limit=999999999&conditions={\"roles\":{\"eq\": [\"owner\"]}, \"email\": {\"contains\": \"owner2\"}, \"restaurents\": {\"ne\":  [\"600157d047a9e728d04689b0\"]}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "999999999"
+						},
+						{
+							"key": "conditions",
+							"value": "{\"roles\":{\"eq\": [\"owner\"]}, \"email\": {\"contains\": \"owner2\"}, \"restaurents\": {\"ne\":  [\"600157d047a9e728d04689b0\"]}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJjcmVhdGVPd25lciIsImNyZWF0ZVJlc3RhdXJlbnQiLCJ2aWV3UmVzdGF1cmVudCIsImVkaXRSZXN0YXVyZW50Il0sIl9pZCI6IjYwMDA5MDk5Yzg5OTc0ZmQ3OTc3ZWNhNCIsIm5hbWUiOiJjb21wYW55QWRtaW4ifV0sInJlc3RhdXJlbnRzIjpbXSwiX2lkIjoiNjAwMDkxNjVjY2U1NzYwYTg4MjczNGMzIiwiZmlyc3ROYW1lIjoiYWRtaW4iLCJsYXN0TmFtZSI6ImFkbWluIiwiY2l0eSI6IkFzaWEvS29sa2F0YSIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiY29tcGFueSI6IjYwMDA5MTU2Y2NlNTc2MGE4ODI3MzRjMiIsInRva2VuIjoiOWI2OTdhOTg2ZmNjODc0YTQ1Njc5NmQ3NGU5Y2FmNGM3ODdkOTk4NyIsIl9fdiI6MCwicGFzc3dvcmQiOiIkMmIkMTAkNVhqRVovN3FSZEZBS2Z6dk9rSk0udVguQ1kvTUlxQnYvTGFyOGlvckFraWxRZjFKc2ExWjYiLCJwZXJtaXNzaW9ucyI6WyJjcmVhdGVPd25lciIsImNyZWF0ZVJlc3RhdXJlbnQiLCJ2aWV3UmVzdGF1cmVudCIsImVkaXRSZXN0YXVyZW50Il0sImlhdCI6MTYxMDk1NDgyN30.iVA_nEQu5Y177tYRwdBlYDFtB1WRC9syja-ROYcSajU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"owner2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3005/users/600556c101ac09226ca04fff",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"users",
+						"600556c101ac09226ca04fff"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-cart-details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJ2aWV3Rm9vZEl0ZW0iLCJ2aWV3UmVzdGF1cmVudCIsIm9yZGVyRm9vZEl0ZW0iXSwiX2lkIjoiNjAyNjI2ZjA4ZDc1NDU3ZmYyMDI0ZGNjIiwibmFtZSI6ImN1c3RvbWVyIn1dLCJyZXN0YXVyZW50cyI6W10sIl9pZCI6IjYwMjYyYjBlZTgwMDRlMGUwMDg1YTI3NSIsImZpcnN0TmFtZSI6ImN1c3RvbWVyIiwibGFzdE5hbWUiOiJjdXN0b21lciIsImNpdHkiOiJiYW5nYWxvcmUiLCJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFAzcDlWNDBIZC4zbkpJMjB3UDBMUE9jenEuSW9oSHZGYjlFblJaNVVCTWIzalNMNzVIa2xXIiwidG9rZW4iOiJiYTJlYThmNzVhNzFhOWYwYzdhNDFmMmIwZjRjMGQ2NDA3ZDZmNTRkIiwiY29tcGFueSI6IjYwMjYyNzZkZTgwMDRlMGUwMDg1YTI2ZSIsIl9fdiI6MCwicGVybWlzc2lvbnMiOlsidmlld0Zvb2RJdGVtIiwidmlld1Jlc3RhdXJlbnQiLCJvcmRlckZvb2RJdGVtIl0sImlhdCI6MTYxODQ2NjA1Mn0.fPh2O1xPZ-X9aiJW9Jxjk_N6fVsbx2YatwmUmIOySsI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3005/users/cartDetails",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"users",
+						"cartDetails"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

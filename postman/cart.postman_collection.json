@@ -1,0 +1,54 @@
+{
+	"info": {
+		"_postman_id": "dc47aec7-e2f9-4360-a86c-758fc61ecf92",
+		"name": "cart",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "update cart",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJ2aWV3Rm9vZEl0ZW0iLCJ2aWV3UmVzdGF1cmVudCIsIm9yZGVyRm9vZEl0ZW0iXSwiX2lkIjoiNjAyNjI2ZjA4ZDc1NDU3ZmYyMDI0ZGNjIiwibmFtZSI6ImN1c3RvbWVyIn1dLCJyZXN0YXVyZW50cyI6W10sIl9pZCI6IjYwMjYyYjBlZTgwMDRlMGUwMDg1YTI3NSIsImZpcnN0TmFtZSI6ImN1c3RvbWVyIiwibGFzdE5hbWUiOiJjdXN0b21lciIsImNpdHkiOiJiYW5nYWxvcmUiLCJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFAzcDlWNDBIZC4zbkpJMjB3UDBMUE9jenEuSW9oSHZGYjlFblJaNVVCTWIzalNMNzVIa2xXIiwidG9rZW4iOiJiYTJlYThmNzVhNzFhOWYwYzdhNDFmMmIwZjRjMGQ2NDA3ZDZmNTRkIiwiY29tcGFueSI6IjYwMjYyNzZkZTgwMDRlMGUwMDg1YTI2ZSIsIl9fdiI6MCwicGVybWlzc2lvbnMiOlsidmlld0Zvb2RJdGVtIiwidmlld1Jlc3RhdXJlbnQiLCJvcmRlckZvb2RJdGVtIl0sImlhdCI6MTYxOTYxNzY5MH0.YlwkJSHP4WF_6DrEqjqgIMvgXxsNdkagdrlGmGEVErI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"address\": \"60898424261026272c7b1f47\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3005/carts/608966a5c3151540309bbe85",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"carts",
+						"608966a5c3151540309bbe85"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

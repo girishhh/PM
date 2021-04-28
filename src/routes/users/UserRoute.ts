@@ -170,6 +170,7 @@ class UserRoute {
             customer: httpContext.get(USER_ID),
           })
             .populate("restaurent")
+            .populate("address")
             .exec();
           const respJson = { cartDetails: cart };
           res.status(200).json(respJson);

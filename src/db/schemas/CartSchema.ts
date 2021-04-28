@@ -1,12 +1,10 @@
+import httpContext from "express-http-context";
 import mongoose from "mongoose";
 import { COMPANY_ID } from "../../constants/CompanyConstants";
-import httpContext from "express-http-context";
 import {
   attachCompanyToQuery,
   attachVersionIncreamentor,
 } from "../../helpers/MongooseHelper";
-import { CartInterface } from "../../interfaces/CartInterface";
-import { CartItemInterface } from "../../interfaces/CartItemInterface";
 import { CompanyInterface } from "../../interfaces/CompanyInterface";
 import { Company } from "../models/CompanyModel";
 
@@ -29,6 +27,7 @@ const CartSchema = new schema(
       unique: true,
       required: true,
     },
+    address: { type: schema.Types.ObjectId, ref: "Address" },
     company: { type: schema.Types.ObjectId, ref: "Company" },
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }

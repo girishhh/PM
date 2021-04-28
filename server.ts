@@ -26,7 +26,9 @@ import {
 } from "./src/helpers/StorageHelper";
 import { ResponseError } from "./src/interfaces/CommonInterface";
 import { emailJob } from "./src/jobs/EmailJob";
+import { addressRoute } from "./src/routes/addresses/AddressRoute";
 import { cartItemRoute } from "./src/routes/cart-items/CartItemRoute";
+import { cartRoute } from "./src/routes/carts/CartRoute";
 import { companyRoute } from "./src/routes/companies/CompanyRoute";
 import { foodCategoryRoute } from "./src/routes/foods/FoodCategoryRoute";
 import { foodItemRoute } from "./src/routes/foods/FoodItemRoute";
@@ -100,7 +102,9 @@ export class Server {
     this.app.use("/food-items", setCart, foodItemRoute);
     this.app.use("/menu-items", menuItemRoute);
     this.app.use("/menus", menuRoute);
+    this.app.use("/carts", cartRoute);
     this.app.use("/cart-items", cartItemRoute);
+    this.app.use("/addresses", addressRoute);
     this.app.use(function (
       req: express.Request,
       res: express.Response,

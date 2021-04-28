@@ -1,0 +1,179 @@
+{
+	"info": {
+		"_postman_id": "8b357167-cc80-419c-8502-1a887fa9bb6a",
+		"name": "FoodCategories",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "list",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJjcmVhdGVGb29kSXRlbSIsInZpZXdGb29kSXRlbSIsInZpZXdGb29kSXRlbUxpc3QiLCJlZGl0Rm9vZEl0ZW0iLCJkZWxldGVGb29kSXRlbSIsInZpZXdSZXN0YXVyZW50Il0sIl9pZCI6IjYwMjYyNmVhOGQ3NTQ1N2ZmMjAyNGRjYiIsIm5hbWUiOiJvd25lciJ9XSwicmVzdGF1cmVudHMiOlsiNjAyNjI4MzNlODAwNGUwZTAwODVhMjcxIl0sIl9pZCI6IjYwMjYyODg4ZTgwMDRlMGUwMDg1YTI3MyIsImZpcnN0TmFtZSI6Im93bmVyIiwibGFzdE5hbWUiOiJvd25lciIsImNpdHkiOiJiYW5nYWxvcmUiLCJlbWFpbCI6Im93bmVyQGdtYWlsLmNvbSIsInRva2VuIjoiMWYyYTYzYjQ2OGEyYjIxNzc5NWVhYTA4ZDI2NGM1YmM4NmVjZjI0NCIsImNvbXBhbnkiOiI2MDI2Mjc2ZGU4MDA0ZTBlMDA4NWEyNmUiLCJfX3YiOjAsInBhc3N3b3JkIjoiJDJiJDEwJEs1N0h4SUxCZjhhOTcwcEVFZ1FkUU91M3JvSGlKamdhZDhGbUZhMW9vOVcuMWNOZVJjMU9pIiwicGVybWlzc2lvbnMiOlsiY3JlYXRlRm9vZEl0ZW0iLCJ2aWV3Rm9vZEl0ZW0iLCJ2aWV3Rm9vZEl0ZW1MaXN0IiwiZWRpdEZvb2RJdGVtIiwiZGVsZXRlRm9vZEl0ZW0iLCJ2aWV3UmVzdGF1cmVudCJdLCJpYXQiOjE2MTMzNzQ5NDl9.U7dsqNdFJGMjic8fn5xP-DuopJnCEmyDdJlswQ8fhDw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3005/food-categories?start=0&limit=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"food-categories"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJjcmVhdGVPd25lciIsImNyZWF0ZVJlc3RhdXJlbnQiLCJ2aWV3UmVzdGF1cmVudCIsImVkaXRSZXN0YXVyZW50Il0sIl9pZCI6IjYwMDA5MDk5Yzg5OTc0ZmQ3OTc3ZWNhNCIsIm5hbWUiOiJjb21wYW55QWRtaW4ifV0sIl9pZCI6IjYwMDA5MTY1Y2NlNTc2MGE4ODI3MzRjMyIsImZpcnN0TmFtZSI6ImFkbWluIiwibGFzdE5hbWUiOiJhZG1pbiIsImNpdHkiOiJBc2lhL0tvbGthdGEiLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImNvbXBhbnkiOiI2MDAwOTE1NmNjZTU3NjBhODgyNzM0YzIiLCJ0b2tlbiI6IjliNjk3YTk4NmZjYzg3NGE0NTY3OTZkNzRlOWNhZjRjNzg3ZDk5ODciLCJfX3YiOjAsInBhc3N3b3JkIjoiJDJiJDEwJDVYakVaLzdxUmRGQUtmenZPa0pNLnVYLkNZL01JcUJ2L0xhcjhpb3JBa2lsUWYxSnNhMVo2IiwicGVybWlzc2lvbnMiOlsiY3JlYXRlT3duZXIiLCJjcmVhdGVSZXN0YXVyZW50Iiwidmlld1Jlc3RhdXJlbnQiLCJlZGl0UmVzdGF1cmVudCJdLCJpYXQiOjE2MTA3MTc0NTR9.nMlD-us5U5XLf-MVNFugiEP2HbOgTU9q5rcJ3tY5i5M",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"chinees\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3005/food-categories",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"food-categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJjcmVhdGVPd25lciIsImNyZWF0ZVJlc3RhdXJlbnQiXSwiX2lkIjoiNWZmNTY3NWVmZGExYzQ3MjZmNWFiZjE4IiwibmFtZSI6ImNvbXBhbnlBZG1pbiJ9XSwiX2lkIjoiNWZmNmU4MGJlOTViZWM0NTk0ZDhkMmZmIiwiZmlyc3ROYW1lIjoiYWRtaW4iLCJsYXN0TmFtZSI6ImFkbWluIiwiY2l0eSI6IiBiYW5nYWxvcmUiLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImNvbXBhbnkiOiI1ZmY2ZGUxMzI4Yzk5YzRjODA3NzdjMDAiLCJ0b2tlbiI6ImQ5NWYyMDE4M2E4NDVlNGFhYzY1MmU4YmNlMWM4YTllMTQ2N2ViYjkiLCJfX3YiOjAsInBhc3N3b3JkIjoiJDJiJDEwJGl6SEVpM2FRY3BQbksxWUVqRlM4RU9SZkVDL29Rd1hLYTU2N0t2T2VrM2t3T21rVlQ3dWw2IiwicGVybWlzc2lvbnMiOlsiY3JlYXRlT3duZXIiLCJjcmVhdGVSZXN0YXVyZW50Il0sImlhdCI6MTYxMDAxNjg3NH0.-etU8I4I24pSYcypRAfGvhInA_dFIaA27bTiZeU067o",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"chineese\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3005/food-categories/5ff6e90ae95bec4594d8d301",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"food-categories",
+						"5ff6e90ae95bec4594d8d301"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWUsImFkZHJlc3NlcyI6W10sInJvbGVzIjpbeyJwZXJtaXNzaW9ucyI6WyJjcmVhdGVPd25lciIsImNyZWF0ZVJlc3RhdXJlbnQiXSwiX2lkIjoiNWZmNTY3NWVmZGExYzQ3MjZmNWFiZjE4IiwibmFtZSI6ImNvbXBhbnlBZG1pbiJ9XSwiX2lkIjoiNWZmNmU4MGJlOTViZWM0NTk0ZDhkMmZmIiwiZmlyc3ROYW1lIjoiYWRtaW4iLCJsYXN0TmFtZSI6ImFkbWluIiwiY2l0eSI6IiBiYW5nYWxvcmUiLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImNvbXBhbnkiOiI1ZmY2ZGUxMzI4Yzk5YzRjODA3NzdjMDAiLCJ0b2tlbiI6ImQ5NWYyMDE4M2E4NDVlNGFhYzY1MmU4YmNlMWM4YTllMTQ2N2ViYjkiLCJfX3YiOjAsInBhc3N3b3JkIjoiJDJiJDEwJGl6SEVpM2FRY3BQbksxWUVqRlM4RU9SZkVDL29Rd1hLYTU2N0t2T2VrM2t3T21rVlQ3dWw2IiwicGVybWlzc2lvbnMiOlsiY3JlYXRlT3duZXIiLCJjcmVhdGVSZXN0YXVyZW50Il0sImlhdCI6MTYxMDAxNjg3NH0.-etU8I4I24pSYcypRAfGvhInA_dFIaA27bTiZeU067o",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3005/food-categories/5ff6e90ae95bec4594d8d301",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"food-categories",
+						"5ff6e90ae95bec4594d8d301"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
