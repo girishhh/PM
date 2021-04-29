@@ -8,6 +8,7 @@ export interface OrderInterface extends Document {
   grandTotal: number;
   gst: number;
   subTotal: number;
+  orderItems: OrderInterface[];
   restaurent: string | RestaurentInterface;
   customer: string | UserInterface;
   address: string | AddressInterface;

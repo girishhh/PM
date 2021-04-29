@@ -34,6 +34,7 @@ import { foodCategoryRoute } from "./src/routes/foods/FoodCategoryRoute";
 import { foodItemRoute } from "./src/routes/foods/FoodItemRoute";
 import { menuItemRoute } from "./src/routes/menus/MenuItemRoute";
 import { menuRoute } from "./src/routes/menus/MenuRoute";
+import { orderRoute } from "./src/routes/orders/OrderRoute";
 import { restaurentRoute } from "./src/routes/restaurents/RestaurentRoute";
 import { userRoute } from "./src/routes/users/UserRoute";
 
@@ -105,6 +106,7 @@ export class Server {
     this.app.use("/carts", cartRoute);
     this.app.use("/cart-items", cartItemRoute);
     this.app.use("/addresses", addressRoute);
+    this.app.use("/orders", orderRoute);
     this.app.use(function (
       req: express.Request,
       res: express.Response,
