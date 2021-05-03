@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response, Router } from "express";
-import mongoose from "mongoose";
 import "express-async-errors";
 import httpContext from "express-http-context";
+import mongoose from "mongoose";
 // @ts-ignore
 import params from "params";
 import { MenuItem } from "../../db/models/MenuItemModel";

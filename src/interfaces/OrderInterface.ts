@@ -10,7 +10,7 @@ export interface OrderInterface extends Document {
   subTotal: number;
   orderItems: OrderInterface[];
   restaurent: string | RestaurentInterface;
-  customer: string | UserInterface;
+  user: string | UserInterface;
   address: string | AddressInterface;
   company: string | CompanyInterface;
 }

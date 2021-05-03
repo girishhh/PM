@@ -16,7 +16,7 @@ const OrderSchema = new schema(
       ref: "Restaurent",
       required: true,
     },
-    customer: {
+    user: {
       type: schema.Types.ObjectId,
       ref: "User",
       required: true,
