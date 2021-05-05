@@ -56,7 +56,7 @@ class OrderRoute {
       async (req: Request, res: Response, next: NextFunction) => {
         await httpContext.ns.runPromise(async () => {
           const formData = params(req.body).only("cartId", "payment");
-          const cart = await Cart.findById(formData.cartId);
+          const cart = await Cart.findById(formData.cartId).exec();
           if (!cart) return res.status(404).send();
           const cartJson = cart.toJSON();
           const cartItems = cartJson.cartItems;
