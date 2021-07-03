@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"unique":true,"key":{"foodItem":{"$numberInt":"1"},"cart":{"$numberInt":"1"}},"name":"foodItemCart"}],"uuid":"9bb82ac98e004ce7b34c1a720f380059","collectionName":"cartitems"}
