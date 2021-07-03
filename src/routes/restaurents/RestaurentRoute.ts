@@ -59,6 +59,7 @@ class RestaurentRoute {
             "limit",
             "conditions"
           );
+
           const queryCondition = formData.conditions
             ? buildQueryConditions(JSON.parse(formData.conditions))
             : {};
@@ -70,6 +71,15 @@ class RestaurentRoute {
             queryCondition
           ).exec();
           const respJson = { restaurentList: restaurents, total: totalCount };
+          const tt = await Restaurent.update(
+            { name: "mkmkkmmk" },
+            { name: "gggg" }
+          );
+          console.log("AAAAAAAAAAAAAAAAAA", tt);
+          //@ts-ignore
+          // console.log("SESSIONNNNNNNNNNN", req.session, req.session.counter);
+          //@ts-ignore
+          req.session.counter = req.session.counter + 10;
           res.status(200).json(respJson);
         });
       }

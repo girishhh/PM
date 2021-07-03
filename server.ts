@@ -1,6 +1,7 @@
 import { setQueues } from "bull-board";
 import CircularJSON from "circular-json";
 import cookieParser from "cookie-parser";
+import session from "express-session";
 import cors from "cors";
 import express, { Request } from "express";
 import httpContext from "express-http-context";
@@ -44,28 +45,49 @@ export class Server {
 
   constructor() {
     this.app = express();
-    this.app.use(cors());
+    this.app.use(
+      session({
+        name: "cook-sess",
+        secret: "secret1",
+        cookie: {
+          maxAge: 500000,
+          path: "/",
+          domain: ".localhost.com",
+        },
+      })
+    );
+    this.app.use(
+      cors({
+        origin: "http://test.localhost.com",
+        credentials: true,
+      })
+    );
     this.app.use(httpContext.middleware);
     this.app.use(setCompany);
-    this.app.use(morgan("combined", { stream }));
+    this.app.use(
+      morgan(":method :url :status :res[content-length] - :response-time ms", {
+        stream,
+      })
+    );
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
+
     this.app.use(cookieParser());
     this.app.use(passport.initialize());
     this.app.use(authMiddleware);
     this.app.use(setCurrentUser);
-    this.app.use(cors());
   }
 
   setDbConnection = async () => {
     try {
       if (mongoose.connection.readyState === 0) {
         await mongoose.connect(
-          "mongodb://localhost:27017,localhost:27018,localhost:27019/pm",
+          "mongodb://localhost:27017,localhost:27018,localhost:27019",
           {
             useNewUrlParser: true,
             autoIndex: false,
             useUnifiedTopology: true,
+            dbName: "pm",
           }
         );
         mongoose.set(
@@ -124,23 +146,20 @@ export class Server {
     opts.secretOrKey = process.env.JWT_SECRET;
     opts.passReqToCallback = true;
     passport.use(
-      new JwtStrategy(
-        opts,
-        async function (
-          request: Request,
-          payload: any,
-          done: VerifiedCallback
-        ) {
-          await httpContext.ns.runPromise(async () => {
-            const user = await User.findOne({
-              _id: payload._id,
-              company: httpContext.get(COMPANY_ID),
-            }).populate("roles");
-            if (user) return done(null, user.JSON());
-            return done(null, false);
-          });
-        }
-      )
+      new JwtStrategy(opts, async function (
+        request: Request,
+        payload: any,
+        done: VerifiedCallback
+      ) {
+        await httpContext.ns.runPromise(async () => {
+          const user = await User.findOne({
+            _id: payload._id,
+            company: httpContext.get(COMPANY_ID),
+          }).populate("roles");
+          if (user) return done(null, user.JSON());
+          return done(null, false);
+        });
+      })
     );
   };
 
