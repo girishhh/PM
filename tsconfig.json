@@ -10,7 +10,8 @@
     "outDir": "./dist",
     "baseUrl": "./src",
     "sourceMap": true,
-    "lib": ["es2017"]
+    "lib": ["es2017"],
+    "resolveJsonModule": true,
     // "paths": {
     //   "@src": ['./src']
     // }

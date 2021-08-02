@@ -1,0 +1,61 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Digital API",
+        "description": "Digital API Description"
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "schemes": ["http"],
+    "paths": {
+        "/restaurents": {
+            "get": {
+                "tags": ["restaurent"],
+                "summary": "Summary",
+                "security": [
+                    {
+                      "Bearer": []
+                    }
+                  ],
+                "description": "Description",                             
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "subdomain", 
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    },                    
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Restaurent list"
+                    }
+                }
+            }
+        }
+    }
+}

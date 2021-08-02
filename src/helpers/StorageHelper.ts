@@ -1,3 +1,4 @@
+import { NON_SUBDOMAIN_ROUTES } from "../constants/AuthConstants";
 import { NextFunction, Request, Response } from "express";
 import httpContext from "express-http-context";
 import { CART_ID, COMPANY_ID, SUB_DOMAIN } from "../constants/CompanyConstants";
@@ -12,6 +13,7 @@ export const setCompany = async (
   res: Response,
   next: NextFunction
 ) => {
+  if(new RegExp("^(/api-docs)").test(req.path)) { next(); return;}
   let company: CompanyInterface | null;
   const subdomain = req.header("subdomain") || "";
   if (subdomain) {

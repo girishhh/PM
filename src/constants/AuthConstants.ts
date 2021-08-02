@@ -4,7 +4,9 @@ export const PUBLIC_ROUTES = [
   "/users/sign-in",
   "/users/activate-account",
   "/users/sign-up",
-  "/users/resend-confirmation-instructions",
+  "/users/resend-confirmation-instructions"  
 ];
+
+export const NON_SUBDOMAIN_ROUTES = ["/api-docs/"]
 
 export const SUPER_ADMIN_DOMAINS = ["super-admin"];
