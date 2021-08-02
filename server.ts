@@ -38,6 +38,8 @@ import { menuRoute } from "./src/routes/menus/MenuRoute";
 import { orderRoute } from "./src/routes/orders/OrderRoute";
 import { restaurentRoute } from "./src/routes/restaurents/RestaurentRoute";
 import { userRoute } from "./src/routes/users/UserRoute";
+import swaggerUI from "swagger-ui-express";
+import  swaggerDocument from './swagger.json';
 
 export class Server {
   private app: express.Express;
@@ -118,6 +120,7 @@ export class Server {
   };
 
   setRoutes = () => {
+    this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
     this.app.use("/users", userRoute);
     this.app.use("/companies", companyRoute);
     this.app.use("/restaurents", restaurentRoute);
