@@ -1,15 +1,12 @@
-import { Server } from "../../../server";
-import { Company } from "../models/CompanyModel";
-
-const server = new Server();
-server.setDbConnection();
+import { setUpDbConnection } from "../../helpers/MongooseHelper";
 
 module.exports.up = async function (next: any) {
-  await Company.collection.createIndex(
+  const db = await setUpDbConnection();
+  await db.collection('companies').createIndex(
     { name: 1 },
     { name: "nameCompanies", unique: true }
   );
-  await Company.collection.createIndex(
+  await db.collection('companies').createIndex(
     { subdomain: 1 },
     { name: "subdomainCompanies", unique: true }
   );
@@ -17,7 +14,8 @@ module.exports.up = async function (next: any) {
 };
 
 module.exports.down = async function (next: any) {
-  await Company.collection.dropIndex("nameCompanies");
-  await Company.collection.dropIndex("subdomainCompanies");
+  const db = await setUpDbConnection();
+  await db.collection('companies').dropIndex("nameCompanies");
+  await db.collection('companies').dropIndex("subdomainCompanies");
   next();
 };

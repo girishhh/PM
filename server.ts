@@ -40,6 +40,7 @@ import { restaurentRoute } from "./src/routes/restaurents/RestaurentRoute";
 import { userRoute } from "./src/routes/users/UserRoute";
 import swaggerUI from "swagger-ui-express";
 import  swaggerDocument from './swagger.json';
+import { setUpDbConnection } from "helpers/MongooseHelper";
 
 export class Server {
   private app: express.Express;
@@ -81,6 +82,7 @@ export class Server {
   }
 
   setDbConnection = async () => {
+    setUpDbConnection()
     try {
       if (mongoose.connection.readyState === 0) {
         await mongoose.connect(

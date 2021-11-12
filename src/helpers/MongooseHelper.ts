@@ -1,14 +1,16 @@
+import CircularJSON from "circular-json";
+import { logger } from "../config/LoggerConfig";
 import httpContext from "express-http-context";
 import mongoose from "mongoose";
 import { CommonConstants } from "../constants/CommonConstants";
 import {
   ADMIN_DOMAIN,
   COMPANY_ID,
-  SUB_DOMAIN,
+  SUB_DOMAIN
 } from "../constants/CompanyConstants";
 import {
   QUERY_METHODS,
-  UPDATE_QUERY_METHODS,
+  UPDATE_QUERY_METHODS
 } from "../constants/MongooseConstants";
 import { USER_ID } from "../constants/UserConstants";
 import { KeyValue } from "../interfaces/CommonInterface";
@@ -94,3 +96,36 @@ export const attachVersionIncreamentor = (schema: mongoose.Schema): void => {
     });
   }
 };
+
+
+export const setUpDbConnection = async ():  Promise<any> => {
+  try {
+    if (mongoose.connection.readyState === 0) {
+      await mongoose.connect(
+        "mongodb://localhost:27017,localhost:27018,localhost:27019",
+        {
+          useNewUrlParser: true,
+          autoIndex: false,
+          useUnifiedTopology: true,
+          dbName: "pm",
+        }
+      );      
+      mongoose.set(
+        "debug",
+        (collection: any, method: any, query: any, doc: any) => {
+          logger.info(
+            `Mongoose: ${collection}.${method}(${JSON.stringify(
+              query
+            )}), ${CircularJSON.stringify(doc)}`
+          );
+        }
+      );
+      mongoose.set("runValidators", true);
+      logger.info("Db connection established...");      
+    }
+    return mongoose.connection.db
+  } catch (error) {
+    //@ts-ignore
+    logger.error("DB connection error: ".concat(error.message));
+  }
+}

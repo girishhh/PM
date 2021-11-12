@@ -1,11 +1,8 @@
-import { Server } from "../../../server";
-import { FoodCategory } from "../models/FoodCategoryModel";
-
-const server = new Server();
-server.setDbConnection();
+import { setUpDbConnection } from "../../helpers/MongooseHelper";
 
 module.exports.up = async function (next: any) {
-  await FoodCategory.collection.createIndex(
+  const db = await setUpDbConnection();
+  await db.collection("foodcategories").createIndex(
     { name: 1, company: 1 },
     { name: "nameUniqFoodCategory", unique: true }
   );
@@ -13,6 +10,7 @@ module.exports.up = async function (next: any) {
 };
 
 module.exports.down = async function (next: any) {
-  await FoodCategory.collection.dropIndex("nameUniqFoodCategory");
+  const db = await setUpDbConnection();
+  await db.collection("foodcategories").dropIndex("nameUniqFoodCategory");
   next();
 };

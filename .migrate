@@ -3,39 +3,39 @@
   "migrations": [
     {
       "title": "1600068805341-addEmailUniqIndexToUsers.ts",
-      "timestamp": 1611504513568
+      "timestamp": 1636723428945
     },
     {
       "title": "1606906525953-addNameSubdomainUniqIndexToCompanies.ts",
-      "timestamp": 1611504513579
+      "timestamp": 1636723430310
     },
     {
       "title": "1608797232963-addNameUniqIndexRestaurent.ts",
-      "timestamp": 1611504514763
+      "timestamp": 1636723431267
     },
     {
       "title": "1610065155510-addNameRestaurentUniqIndexFoodItems.ts",
-      "timestamp": 1611504515581
+      "timestamp": 1636723432132
     },
     {
       "title": "1610065269748-addNameUniqIndexFoodCategory.ts",
-      "timestamp": 1611504516486
+      "timestamp": 1636723432790
     },
     {
       "title": "1613376275183-addNameUniqIndexMenuItems.ts",
-      "timestamp": 1613376371582
+      "timestamp": 1636723433620
     },
     {
       "title": "1613381956889-addNameUniqIndexMenu.ts",
-      "timestamp": 1613382171345
+      "timestamp": 1636723434298
     },
     {
       "title": "1618067940914-addFoodItemCartUniqIndexCartItems.ts",
-      "timestamp": 1618068175067
+      "timestamp": 1636723453091
     },
     {
       "title": "1618148698978-addRestaurentCustomerUniqIndexToCartSchema.ts",
-      "timestamp": 1618148853692
+      "timestamp": 1636723454821
     }
   ]
 }
