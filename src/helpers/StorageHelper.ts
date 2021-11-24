@@ -12,8 +12,8 @@ export const setCompany = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
-  if(new RegExp("^(/api-docs)").test(req.path)) { next(); return;}
+) => {  
+  if( new RegExp("^(/api-docs)").test(req.path) || new RegExp("^(/queues)").test(req.path) ) { next(); return; }
   let company: CompanyInterface | null;
   const subdomain = req.header("subdomain") || "";
   if (subdomain) {

@@ -1,4 +1,5 @@
-import { setQueues } from "bull-board";
+import { createBullBoard } from '@bull-board/api';
+import { BullAdapter } from '@bull-board/api/bullAdapter';
 import CircularJSON from "circular-json";
 import cookieParser from "cookie-parser";
 import session from "express-session";
@@ -38,6 +39,7 @@ import { menuRoute } from "./src/routes/menus/MenuRoute";
 import { orderRoute } from "./src/routes/orders/OrderRoute";
 import { restaurentRoute } from "./src/routes/restaurents/RestaurentRoute";
 import { userRoute } from "./src/routes/users/UserRoute";
+import { ExpressAdapter } from "@bull-board/express";
 import swaggerUI from "swagger-ui-express";
 import  swaggerDocument from './swagger.json';
 import { setUpDbConnection } from "helpers/MongooseHelper";
@@ -45,8 +47,10 @@ import { setUpDbConnection } from "helpers/MongooseHelper";
 export class Server {
   private app: express.Express;
   private port: number = Number(process.env.PORT) || 3005;
+  private serverAdapter: any = new ExpressAdapter();
 
   constructor() {
+    this.serverAdapter.setBasePath("queues");
     this.app = express();
     this.app.use(
       session({
@@ -122,7 +126,8 @@ export class Server {
   };
 
   setRoutes = () => {
-    this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+    this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));    
+    this.app.use('/queues', this.serverAdapter.getRouter());
     this.app.use("/users", userRoute);
     this.app.use("/companies", companyRoute);
     this.app.use("/restaurents", restaurentRoute);
@@ -168,8 +173,13 @@ export class Server {
     );
   };
 
-  setQueues = () => {
-    setQueues([emailJob.emailQueue]);
+  setQueues = () => {    
+    createBullBoard({
+      queues: [
+        new BullAdapter(emailJob.emailQueue)
+      ],
+      serverAdapter: this.serverAdapter
+    })
   };
 
   setErrorHandlers = () => {

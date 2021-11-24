@@ -1,5 +1,4 @@
 import bcrypt from "bcrypt";
-import { UI } from "bull-board";
 import crypto from "crypto";
 import express, { NextFunction, Request, Response, Router } from "express";
 import "express-async-errors";
@@ -12,7 +11,7 @@ import params from "params";
 import {
   ROLES,
   ROLES_NEEDS_PASSWORD_MAIL,
-  USER_ID,
+  USER_ID
 } from "../../constants/UserConstants";
 import { Address } from "../../db/models/AddressModel";
 import { Cart } from "../../db/models/CartModel";
@@ -20,7 +19,7 @@ import { Role } from "../../db/models/RoleModel";
 import { User } from "../../db/models/UserModel";
 import {
   getConfirmationLink,
-  getCreatePasswordLink,
+  getCreatePasswordLink
 } from "../../helpers/AdminHelper";
 import { allowed, getPermissionName } from "../../helpers/UserHelper";
 import { UserInterface } from "../../interfaces/UserInterface";
@@ -295,7 +294,7 @@ class UserRoute {
               mailType: "sendConfirmationMail",
               confirmationLink,
               user: updatedUser.JSON(),
-            });
+            }, {delay: 5000});
             res.status(202).json(updatedUser);
           } else {
             res.status(404).json({ message: "User not found." });
@@ -303,8 +302,7 @@ class UserRoute {
         });
       }
     );
-
-    this.router.use("/queues", UI);
+  
   };
 }
 
