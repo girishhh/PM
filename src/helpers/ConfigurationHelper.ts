@@ -3,15 +3,15 @@ import rootPath from "app-root-path";
 
 const Email = new EmailConfig({
   message: {
-    from: "girikulkarni03@gmail.com",
+    from: process.env.EMAIL,
   },
   send: true,
   transport: {
     host: "smtp.gmail.com",
     port: 587,
     auth: {
-      user: "girikulkarni03@gmail.com",
-      pass: "giri123@8147925885",
+      user: process.env.EMAIL,
+      pass: process.env.EMAIL_PWD
     },
   },
   views: {
