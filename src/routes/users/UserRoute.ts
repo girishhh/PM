@@ -3,6 +3,7 @@ import crypto from "crypto";
 import express, { NextFunction, Request, Response, Router } from "express";
 import "express-async-errors";
 import httpContext from "express-http-context";
+import { rabbitMq } from "../../jobs/RabbitMq";
 import jwt from "jsonwebtoken";
 import lodash from "lodash";
 import mongoose from "mongoose";
@@ -290,11 +291,17 @@ class UserRoute {
               `${req.protocol}://${req.headers.host}`,
               updatedUser.token
             );
-            emailJob.emailQueue.add({
+            //redis based queue
+            // emailJob.emailQueue.add({
+            //   mailType: "sendConfirmationMail",
+            //   confirmationLink,
+            //   user: updatedUser.JSON(),
+            // }, {delay: 5000, attempts: 3});
+            rabbitMq.publish("email-queue",{
               mailType: "sendConfirmationMail",
               confirmationLink,
               user: updatedUser.JSON(),
-            }, {delay: 5000});
+            })
             res.status(202).json(updatedUser);
           } else {
             res.status(404).json({ message: "User not found." });

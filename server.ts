@@ -1,13 +1,17 @@
 import { createBullBoard } from '@bull-board/api';
+import { ExpressAdapter } from "@bull-board/express";
 import { BullAdapter } from '@bull-board/api/bullAdapter';
 import CircularJSON from "circular-json";
 import cookieParser from "cookie-parser";
-import session from "express-session";
 import cors from "cors";
 import express, { Request } from "express";
 import httpContext from "express-http-context";
+import session from "express-session";
+import { setUpDbConnection } from "helpers/MongooseHelper";
+import { rabbitMq } from "jobs/RabbitMq";
 import http from "http";
 import createError from "http-errors";
+import { emailJob } from "jobs/EmailJob";
 import loadash from "lodash";
 import mongoose from "mongoose";
 import morgan from "morgan";
@@ -17,6 +21,7 @@ import {
   Strategy as JwtStrategy,
   VerifiedCallback,
 } from "passport-jwt";
+import swaggerUI from "swagger-ui-express";
 import { logger, stream } from "./src/config/LoggerConfig";
 import { COMPANY_ID } from "./src/constants/CompanyConstants";
 import { User } from "./src/db/models/UserModel";
@@ -27,7 +32,6 @@ import {
   setCurrentUser,
 } from "./src/helpers/StorageHelper";
 import { ResponseError } from "./src/interfaces/CommonInterface";
-import { emailJob } from "./src/jobs/EmailJob";
 import { addressRoute } from "./src/routes/addresses/AddressRoute";
 import { cartItemRoute } from "./src/routes/cart-items/CartItemRoute";
 import { cartRoute } from "./src/routes/carts/CartRoute";
@@ -39,10 +43,7 @@ import { menuRoute } from "./src/routes/menus/MenuRoute";
 import { orderRoute } from "./src/routes/orders/OrderRoute";
 import { restaurentRoute } from "./src/routes/restaurents/RestaurentRoute";
 import { userRoute } from "./src/routes/users/UserRoute";
-import { ExpressAdapter } from "@bull-board/express";
-import swaggerUI from "swagger-ui-express";
-import  swaggerDocument from './swagger.json';
-import { setUpDbConnection } from "helpers/MongooseHelper";
+import swaggerDocument from "./swagger.json";
 
 export class Server {
   private app: express.Express;
@@ -86,7 +87,7 @@ export class Server {
   }
 
   setDbConnection = async () => {
-    setUpDbConnection()
+    setUpDbConnection();
     try {
       if (mongoose.connection.readyState === 0) {
         await mongoose.connect(
@@ -126,8 +127,12 @@ export class Server {
   };
 
   setRoutes = () => {
-    this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));    
-    this.app.use('/queues', this.serverAdapter.getRouter());
+    this.app.use(
+      "/api-docs",
+      swaggerUI.serve,
+      swaggerUI.setup(swaggerDocument)
+    );
+    this.app.use("/queues", this.serverAdapter.getRouter());
     this.app.use("/users", userRoute);
     this.app.use("/companies", companyRoute);
     this.app.use("/restaurents", restaurentRoute);
@@ -173,14 +178,23 @@ export class Server {
     );
   };
 
-  setQueues = () => {    
+  setQueues = async () => {
     createBullBoard({
       queues: [
         new BullAdapter(emailJob.emailQueue)
       ],
       serverAdapter: this.serverAdapter
-    })
+    });
+
+    try {
+      await rabbitMq.connect();
+      await rabbitMq.subscribeToQueues();
+    } catch (error) {
+      logger.error("RABBIT MQ ERROR", error);
+    }
   };
+
+  
 
   setErrorHandlers = () => {
     this.app.use(
@@ -228,3 +242,4 @@ export class Server {
     }
   };
 }
+
