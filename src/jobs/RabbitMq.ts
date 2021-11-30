@@ -16,10 +16,11 @@ class RabbitMq {
     logger.info("RABBIT MQ Connected successfully");
   }
 
-  async publish(queue: string, message: any) {    
+  async publish(queue: string, message: any) {
     await this.pubChannel?.sendToQueue(queue, Buffer.from(JSON.stringify(message)));
   }
 
+  //in production please create separate worker file for consumer
   async subscribeToQueues() {
     for (let i = 0; i < QUEUE_METADATA.length; i++) {
       await this.subChannel?.assertQueue(QUEUE_METADATA[i].name);
