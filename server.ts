@@ -185,13 +185,7 @@ export class Server {
       ],
       serverAdapter: this.serverAdapter
     });
-
-    try {
-      await rabbitMq.connect();
-      await rabbitMq.subscribeToQueues();
-    } catch (error) {
-      logger.error("RABBIT MQ ERROR", error);
-    }
+    rabbitMq.connect();
   };
 
   

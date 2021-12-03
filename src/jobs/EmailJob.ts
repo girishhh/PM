@@ -19,7 +19,7 @@ class EmailJob {
     this.emailQueue.process(`${rootPath}/src/jobs/EmailJobProcess.ts`);
   };
 
-  static async process(message: any, channel: Channel) {
+  static async process(message: any, channel: Channel) {    
     switch (message.mailType) {
       case "createPasswordMail":
         await UserMailer.createPasswordMail(message.passwordLink, message.user);

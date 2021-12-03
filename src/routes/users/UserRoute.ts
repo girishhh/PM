@@ -297,11 +297,11 @@ class UserRoute {
             //   confirmationLink,
             //   user: updatedUser.JSON(),
             // }, {delay: 5000, attempts: 3});
-            rabbitMq.publish("email-queue",{
+            rabbitMq.publish("main_exchange", "email-queue-key", {
               mailType: "sendConfirmationMail",
               confirmationLink,
               user: updatedUser.JSON(),
-            })
+            });
             res.status(202).json(updatedUser);
           } else {
             res.status(404).json({ message: "User not found." });

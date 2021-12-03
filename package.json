@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "cross-env NODE_ENV=development nodemon --exec 'ts-node -r tsconfig-paths/register app.ts'",
+    "start:worker": "cross-env NODE_ENV=development nodemon --exec 'ts-node -r tsconfig-paths/register src/workers/QueueWorker.ts'",
     "migrate:create": "ts-node src/tasks/CreateMigration.ts",
     "migrate:up": "migrate up --compiler=ts:./export-ts-node.js --migrations-dir src/db/migrations",
     "migrate:down": "migrate down --compiler=ts:./export-ts-node.js --migrations-dir src/db/migrations"
