@@ -11,12 +11,12 @@ class QueueWorker {
   async connect() {
     this.rabbitMqSub = await amqplib.connect(process.env.RABBIT_MQ as string);
     this.subChannel = await this.rabbitMqSub.createChannel();   
-    await Promise.all([this.subChannel.assertExchange("main_exchange", "direct"), this.subChannel.assertExchange("dlx_exchange","direct")]);
+    await Promise.all([this.subChannel.assertExchange("main_exchange", "direct"), this.subChannel.assertExchange("dlx_exchange","direct"), this.subChannel.assertExchange("delay_message_exchange", "x-delayed-message", {arguments: {'x-delayed-type':  "direct"}})]);
     logger.info("RABBIT MQ CONSUMER Connected successfully");
     this.subscribeToQueues();
   }
 
-  async subscribeToQueues() {    
+  async subscribeToQueues() {
     for (let i = 0; i < QUEUE_METADATA.length; i++) {
       await this.subChannel?.assertQueue(QUEUE_METADATA[i].name, QUEUE_METADATA[i].assertOpt);
       this.subChannel?.consume(
@@ -24,7 +24,7 @@ class QueueWorker {
         QUEUE_METADATA[i].handler
       );
     }
-    await Promise.all([this.subChannel?.bindQueue("email-queue","main_exchange","email-queue-key"),this.subChannel?.bindQueue("dead-letter-queue","dlx_exchange","dlx_key") ]);    
+    await Promise.all([this.subChannel?.bindQueue("email-queue","main_exchange","email-queue-key"), this.subChannel?.bindQueue("email-queue","delay_message_exchange","delay-key"), this.subChannel?.bindQueue("dead-letter-queue","dlx_exchange","dlx_key") ]);
   }
 }
 

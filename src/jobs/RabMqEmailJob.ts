@@ -3,7 +3,7 @@ import UserMailer from "../mailers/UserMailer";
 
 class RabMqEmailJob {
   static process(msg: any) {
-    const message = JSON.parse(msg.content.toString());    
+    const message = JSON.parse(msg.content.toString());
     try {
       switch (message.mailType) {
         case "createPasswordMail":

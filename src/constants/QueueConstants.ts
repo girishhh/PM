@@ -8,6 +8,7 @@ const QUEUE_METADATA = [
     assertOpt: {
         deadLetterExchange: "dlx_exchange",
         deadLetterRoutingKey: "dlx_key",
+        durable: true
     },
   },
   {
@@ -16,6 +17,7 @@ const QUEUE_METADATA = [
     assertOpt: {
         deadLetterExchange: "main_exchange",
         deadLetterRoutingKey: "email-queue-key",
+        durable: true
     },
   },
 ];

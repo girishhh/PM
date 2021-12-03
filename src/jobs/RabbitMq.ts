@@ -7,15 +7,16 @@ class RabbitMq {
 
   async connect() {
     this.rabbitMqPub = await amqplib.connect(process.env.RABBIT_MQ as string);
-    this.pubChannel = await this.rabbitMqPub.createChannel();    
+    this.pubChannel = await this.rabbitMqPub.createChannel();
     logger.info("RABBIT MQ Connected successfully");
   }
 
-  async publish(exhange: string, routeKey: string, message: any) {
+  async publish(exhange: string, routeKey: string, message: any, opts: any) {
     this.pubChannel?.publish(
       exhange,
       routeKey,
-      Buffer.from(JSON.stringify(message))
+      Buffer.from(JSON.stringify(message)),
+      opts
     );
   }
 }

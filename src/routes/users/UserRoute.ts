@@ -12,7 +12,7 @@ import params from "params";
 import {
   ROLES,
   ROLES_NEEDS_PASSWORD_MAIL,
-  USER_ID
+  USER_ID,
 } from "../../constants/UserConstants";
 import { Address } from "../../db/models/AddressModel";
 import { Cart } from "../../db/models/CartModel";
@@ -20,7 +20,7 @@ import { Role } from "../../db/models/RoleModel";
 import { User } from "../../db/models/UserModel";
 import {
   getConfirmationLink,
-  getCreatePasswordLink
+  getCreatePasswordLink,
 } from "../../helpers/AdminHelper";
 import { allowed, getPermissionName } from "../../helpers/UserHelper";
 import { UserInterface } from "../../interfaces/UserInterface";
@@ -82,9 +82,8 @@ class UserRoute {
           );
           if (adminExists)
             return res.status(422).json({ message: "Email should be unique." });
-          const ownerAlreadyExistsForReaturent = await User.duplicateOwnerForRestaurent(
-            userFormData
-          );
+          const ownerAlreadyExistsForReaturent =
+            await User.duplicateOwnerForRestaurent(userFormData);
           if (ownerAlreadyExistsForReaturent)
             return res
               .status(422)
@@ -237,7 +236,7 @@ class UserRoute {
           let roleId = await Role.findOne({ name: ROLES.ADMIN });
           const user = await User.findOne({
             email: userFormData.email,
-            roles: [(roleId as unknown) as string],
+            roles: [roleId as unknown as string],
           });
           if (user)
             return res.status(422).json({ message: "Email should be unique." });
@@ -297,11 +296,28 @@ class UserRoute {
             //   confirmationLink,
             //   user: updatedUser.JSON(),
             // }, {delay: 5000, attempts: 3});
-            rabbitMq.publish("main_exchange", "email-queue-key", {
-              mailType: "sendConfirmationMail",
-              confirmationLink,
-              user: updatedUser.JSON(),
-            });
+
+            // rabbitMq.publish(
+            //   "main_exchange",
+            //   "email-queue-key",
+            //   {
+            //     mailType: "sendConfirmationMail",
+            //     confirmationLink,
+            //     user: updatedUser.JSON(),
+            //   },
+            //   { persistent: true }
+            // );
+
+            rabbitMq.publish(
+              "delay_message_exchange",
+              "delay-key",
+              {
+                mailType: "sendConfirmationMail",
+                confirmationLink,
+                user: updatedUser.JSON(),
+              },
+              { persistent: true, headers: { "x-delay": 15000 } }
+            );
             res.status(202).json(updatedUser);
           } else {
             res.status(404).json({ message: "User not found." });
@@ -309,7 +325,6 @@ class UserRoute {
         });
       }
     );
-  
   };
 }
 
